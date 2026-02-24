@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<!--
+© 2026 zerc20.io
+Original content & materials: zerc20.io (all rights reserved by respective owner)
+This page is an unofficial Japanese translation / adaptation by oawe-lab.
+Source/Reference: https://zerc20.io
+-->
+
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>zERC20の仕組み | zERC20 ドキュメント</title>
+<meta name="description" content="zERC20のプライベート送金メカニズムとプライバシー保証について解説します。">
+<link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
+<link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+<button class="menu-toggle" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
+<div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo"><img src="/assets/z.svg" width="77%" height="auto" alt="zERC20"></div>
+<div class="sidebar-top">
+<a href="/index.html">
+<div class="sidebar-title">zERC20</div>
+<div class="sidebar-subtitle">日本語ドキュメント - 非公式</div>
+</a>
+</div>
+</div>
+<nav class="sidebar-nav">
+<div class="nav-section">
+<div class="nav-section-title">概要</div>
+<a href="../index.html" class="nav-link">はじめに</a>
+<a href="how-it-works.html" class="nav-link active">zERC20の仕組み</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">ユーザー向け</div>
+<a href="../for-users/getting-started.html" class="nav-link">フロントエンドの使い方</a>
+<a href="../for-users/private-transfer.html" class="nav-link sub">プライベート送金</a>
+<a href="../for-users/scan-receives.html" class="nav-link sub">受信スキャン</a>
+<a href="../for-users/using-cli.html" class="nav-link">CLIの使い方</a>
+<a href="../for-users/fees-and-rewards.html" class="nav-link">手数料とリワード</a>
+<a href="../for-users/faq.html" class="nav-link">よくある質問</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">開発者向け</div>
+<a href="../for-developers/architecture.html" class="nav-link">アーキテクチャ概要</a>
+<a href="../for-developers/sdk-guide.html" class="nav-link">SDKガイド</a>
+<a href="../for-developers/integration.html" class="nav-link">インテグレーションガイド</a>
+<a href="../for-developers/circuit-setup.html" class="nav-link">回路セットアップ</a>
+<a href="../for-developers/proof-of-innocence.html" class="nav-link">潔白の証明（計画中）</a>
+<a href="../for-developers/specs.html" class="nav-link">技術仕様</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">リファレンス</div>
+<a href="../reference/addresses.html" class="nav-link">コントラクトアドレス</a>
+<a href="../reference/links.html" class="nav-link">外部リンク</a>
+<a href="../reference/glossary.html" class="nav-link">用語集</a>
+</div>
+</nav>
+<div class="sidebar-footer">
+<a href="https://zerc20.gitbook.io/zerc20/overview/how-it-works" target="_blank" rel="noopener">原文（英語）↗&nbsp;</a>
+</div>
+</aside>
+
+<main class="main">
+<div class="content">
+<h1>zERC20の仕組み</h1>
+<p class="page-description">
+このページでは、zERC20のプライベート送金メカニズムと、どのようなプライバシー保証が提供されるかを説明します。
+</p>
+
+<h2>プライベート送金フロー</h2>
+
+<h3>ステップ1: バーンアドレスの生成</h3>
+<p>
+送信者または受信者が<strong>バーンアドレス</strong>を生成します。これは対応する秘密鍵が存在しないワンタイムのEthereumアドレスです。このアドレスは受信者の引き出しアドレスとシークレットから暗号学的に導出されます。
+</p>
+
+<h3>ステップ2: バーンアドレスへの送金</h3>
+<p>
+送信者は任意の標準ウォレット（MetaMaskなど）を使用して、zERC20をバーンアドレスに送金します。このアドレスには秘密鍵が存在しないため、トークンは実質的に「バーン」され、誰も移動させることができません。
+</p>
+
+<h3>ステップ3: ゼロ知識証明による引き出し</h3>
+<p>受信者は以下を示すゼロ知識証明を生成します:</p>
+<ul>
+<li>バーンアドレスの導出に使用されたシークレットを知っていること</li>
+<li>バーンアドレスが特定の量のトークンを受け取ったこと</li>
+</ul>
+<p>
+この証明を使用して、受信者は任意のアドレスに同額を引き出すことができます。証明は、どのバーンアドレスがどの引き出しに対応するかについては一切明らかにしません。
+</p>
+<div class="callout callout-info">
+<div class="callout-title">💡 テレポート</div>
+<p>この引き出しプロセスを「テレポート」と呼びます。トークンがあるアドレスから消え、追跡不可能なリンクで別のアドレスに再出現するためです。</p>
+</div>
+
+<h2>プライバシーの範囲</h2>
+<p>zERC20のプライバシーモデルを安全に利用するためには、その範囲を理解することが重要です。</p>
+
+<h3>1. 送信者-受信者の紐付け不可能性</h3>
+<p>
+送信者のアドレスと受信者の引き出しアドレスの関係はオンチェーン上に公開されません。これはTornado Cashがデポジットと引き出しの間のリンクを隠すのと同様です。
+</p>
+
+<h3>2. バーンアドレスの可視性</h3>
+<p>
+zERC20をバーンアドレスに送金するトランザクションは公開されています。ただし、観察者はバーンアドレスがどの引き出しアドレスにリンクしているかを判別できません。
+</p>
+
+<h3>3. 誰が何を知っているか</h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>シナリオ</th>
+<th>送信者が知る情報</th>
+<th>オンチェーン観察者が見る情報</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>受信者がバーンアドレスを生成</td>
+<td>バーンアドレスのみ</td>
+<td>送信者のアドレス → 不明なアドレスへの送金</td>
+</tr>
+<tr>
+<td>送信者がバーンアドレスを生成</td>
+<td>受信者の引き出しアドレス</td>
+<td>送信者のアドレス → 不明なアドレスへの送金</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li><strong>受信者生成のバーンアドレス:</strong> 送信者はバーンアドレスのみを知り、資金がどこに引き出されるかは知りません。受信者のプライバシーが最大限保護されます。</li>
+<li><strong>送信者生成のバーンアドレス:</strong>
+送信者はバーンアドレスを生成するために受信者の引き出しアドレスを知る必要があります。受信者のアドレスはオンチェーン観察者からは秘匿されますが、送信者からは秘匿されません。</li>
+</ul>
+<div class="callout callout-info">
+<div class="callout-title">ℹ️ 情報</div>
+<p>フロントエンドは現在、送信者生成のバーンアドレスをサポートしています。CLIは両方の方式をサポートしています。</p>
+</div>
+
+<h3>4. 金額のプライバシーに関する考慮事項</h3>
+<p>
+送金額と引き出し額はオンチェーン上で可視です。固有または珍しい金額（例: 123.456789 zUSDC）は、トランザクションの相関付けに使用される可能性があります。
+</p>
+<p><strong>軽減策:</strong></p>
+<div class="card-grid">
+<div class="card">
+<div class="card-title">バッチ引き出し</div>
+<div class="card-text">複数の着金を1回の引き出しにまとめます。オンチェーンには合計額のみが公開されます。</div>
+</div>
+<div class="card">
+<div class="card-title">部分引き出し</div>
+<div class="card-text">受け取った全額より少ない金額を引き出します。例: 123.456789 zUSDCを受け取った場合、123
+zUSDCを引き出し、残りは保留にします。</div>
+</div>
+</div>
+
+<h2>クロスチェーン送金</h2>
+<p>zERC20は異なるブロックチェーン間でのプライベート送金をサポートしています:</p>
+<ol class="steps">
+<li>サポートされている任意のチェーンでzERC20をバーンアドレスに送金</li>
+<li>他のサポートされているチェーンに引き出し</li>
+</ol>
+<p>
+クロスチェーンメッセージングはLayerZeroによって処理され、グローバルマークルツリーがすべてのチェーン間で転送ルートを集約します。
+</p>
+
+<h2>技術概要</h2>
+<p>基盤となる暗号技術に興味のある開発者向け:</p>
+<ul>
+<li><strong>マークルツリー:</strong> Poseidonハッシュベースのマークルツリーですべてのバーンを追跡</li>
+<li><strong>ゼロ知識証明:</strong> Novaフォールディング方式（バッチ）とGroth16（シングル）で引き出し資格を証明</li>
+<li><strong>ハッシュチェーン:</strong> SHA-256ハッシュチェーンですべての転送の決定論的な順序付けを保証</li>
+<li><strong>ステルスメッセージング:</strong> VetKDを使用したICP Canisterで暗号化されたバーンアドレスの配信を実現</li>
+</ul>
+<p>詳細は<a href="../for-developers/architecture.html">アーキテクチャ概要</a>をご覧ください。</p>
+
+<div class="page-nav">
+<a href="../index.html" class="prev">
+<span class="nav-label">← 前へ</span>
+<span class="nav-title">はじめに</span>
+</a>
+<a href="../for-users/getting-started.html" class="next">
+<span class="nav-label">次へ →</span>
+<span class="nav-title">フロントエンドの使い方</span>
+</a>
+</div>
+</div>
+</main>
+</div>
+
+<script>
+function toggleSidebar() {
+document.getElementById('sidebar').classList.toggle('open');
+document.getElementById('overlay').classList.toggle('open');
+}
+</script>
+</body>
+
+</html>

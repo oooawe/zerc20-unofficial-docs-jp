@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<!--
+© 2026 zerc20.io
+Original content & materials: zerc20.io (all rights reserved by respective owner)
+This page is an unofficial Japanese translation / adaptation by oawe-lab.
+Source/Reference: https://zerc20.io
+-->
+
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>受信スキャン | zERC20 ドキュメント</title>
+<meta name="description" content="zERC20でプライベート送金をスキャンして受信する方法">
+<link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
+<link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+<button class="menu-toggle" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
+<div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo"><img src="/assets/z.svg" width="77%" height="auto" alt="zERC20"></div>
+<div class="sidebar-top">
+<a href="/index.html">
+<div class="sidebar-title">zERC20</div>
+<div class="sidebar-subtitle">日本語ドキュメント - 非公式</div>
+</a>
+</div>
+</div>
+<nav class="sidebar-nav">
+<div class="nav-section">
+<div class="nav-section-title">概要</div>
+<a href="../index.html" class="nav-link">はじめに</a>
+<a href="../overview/how-it-works.html" class="nav-link">zERC20の仕組み</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">ユーザー向け</div>
+<a href="getting-started.html" class="nav-link">フロントエンドの使い方</a>
+<a href="private-transfer.html" class="nav-link sub">プライベート送金</a>
+<a href="scan-receives.html" class="nav-link sub active">受信スキャン</a>
+<a href="using-cli.html" class="nav-link">CLIの使い方</a>
+<a href="fees-and-rewards.html" class="nav-link">手数料とリワード</a>
+<a href="faq.html" class="nav-link">よくある質問</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">開発者向け</div>
+<a href="../for-developers/architecture.html" class="nav-link">アーキテクチャ概要</a>
+<a href="../for-developers/sdk-guide.html" class="nav-link">SDKガイド</a>
+<a href="../for-developers/integration.html" class="nav-link">インテグレーションガイド</a>
+<a href="../for-developers/circuit-setup.html" class="nav-link">回路セットアップ</a>
+<a href="../for-developers/proof-of-innocence.html" class="nav-link">潔白の証明（計画中）</a>
+<a href="../for-developers/specs.html" class="nav-link">技術仕様</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">リファレンス</div>
+<a href="../reference/addresses.html" class="nav-link">コントラクトアドレス</a>
+<a href="../reference/links.html" class="nav-link">外部リンク</a>
+<a href="../reference/glossary.html" class="nav-link">用語集</a>
+</div>
+</nav>
+<div class="sidebar-footer">
+<a href="https://zerc20.gitbook.io/zerc20/for-users/getting-started/scan-receives" target="_blank" rel="noopener">原文（英語）↗&nbsp;</a>
+</div>
+</aside>
+
+<main class="main">
+<div class="content">
+<h1>受信スキャン</h1>
+<p class="page-description">このガイドでは、zERC20 Webアプリケーションを使用してプライベート送金をスキャンし受信する方法を説明します。</p>
+
+<h2>Private Receiveにアクセス</h2>
+<ol class="steps">
+<li><a href="https://app.zerc20.io/" target="_blank" rel="noopener">フロントエンド ↗&nbsp;</a>にアクセス</li>
+<li>ウォレットを接続</li>
+<li>「Private Receive」タブをクリック</li>
+</ol>
+
+<h2>着金トランスファーのスキャン</h2>
+<p>着金したプライベート送金を確認するには:</p>
+<ol class="steps">
+<li>「Scan for Receive」ボタンをクリック</li>
+<li>システムがビューキーを要求し、アナウンスメントをスキャンします</li>
+</ol>
+<p>スキャンプロセス:</p>
+<ul>
+<li>ウォレットからビューキーを要求（このキーにより、あなた宛のアナウンスメントを復号できます）</li>
+<li>サポートされている全チェーンの暗号化されたアナウンスメントを検索</li>
+<li>あなたのウォレット宛のアナウンスメントを復号</li>
+<li>秘密鍵や支出能力は公開されません</li>
+</ul>
+
+<h2>受信した送金の表示</h2>
+<p>スキャン後、タイムスタンプごとにグループ化された着金リストが表示されます。</p>
+<p>アナウンスメントの「+」ボタンをクリックすると詳細が展開されます。</p>
+
+<h2>アナウンスメント詳細</h2>
+<p>各アナウンスメントは以下のステータスフローを経ます:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>ステータス</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="status status-pending">PENDING</span></td>
+<td>送金が検出されたが、引き出しの確認がまだ</td>
+</tr>
+<tr>
+<td><span class="status status-ready">READY</span></td>
+<td>送金が確認済みで引き出し可能</td>
+</tr>
+<tr>
+<td><span class="status status-redeemed">REDEEMED</span></td>
+<td>資金は既に引き出し済み</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>詳細ビューに表示される情報:</p>
+<ul>
+<li><strong>ステータス:</strong> 送金の現在のステータス（PENDING / READY / REDEEMED）</li>
+<li><strong>送金先チェーン:</strong> 資金を引き出せるチェーン</li>
+<li><strong>数量とトークン:</strong> 受信したzERC20の数量</li>
+<li><strong>ソース:</strong> 送信元のチェーンと送信者アドレス</li>
+<li><strong>バーンアドレス:</strong> 送金に使用されたバーンアドレス</li>
+</ul>
+
+<h2>資金の引き出し</h2>
+<p>送金がREADYステータス（「ARRIVED」と表示）に達したら:</p>
+<ol class="steps">
+<li>アナウンスメントを展開</li>
+<li>「REDEEM」ボタンをクリック</li>
+</ol>
+<ol class="steps">
+<li>証明の生成とトランザクションの完了を待ちます（資金を引き出す権利があることを示すゼロ知識証明が作成されます）</li>
+<li>完了すると、ステータスがREDEEMEDに変わり、ボタンに「Already Redeemed」と表示されます</li>
+</ol>
+<p>資金は接続中のウォレットアドレスに送金されます。</p>
+
+<h2>トラブルシューティング</h2>
+
+<h3>アナウンスメントが見つからない場合</h3>
+<p>スキャンで結果が表示されない場合:</p>
+<ul>
+<li>正しいウォレットで接続していることを確認</li>
+<li>送金がオンチェーンで確認されるまで待つ（数分かかることがあります）</li>
+<li>送信者が正しい受信者アドレスを使用したか確認</li>
+</ul>
+
+<h2>次のステップ</h2>
+<div class="card-grid">
+<a href="private-transfer.html" class="card" style="text-decoration:none;">
+<div class="card-title">🔒 プライベート送金</div>
+<div class="card-text">プライベート送金の送信方法を学ぶ</div>
+</a>
+<a href="getting-started.html" class="card" style="text-decoration:none;">
+<div class="card-title">🌐 フロントエンド概要</div>
+<div class="card-text">フロントエンドの概要</div>
+</a>
+<a href="faq.html" class="card" style="text-decoration:none;">
+<div class="card-title">❓ FAQ</div>
+<div class="card-text">一般的な質問とトラブルシューティング</div>
+</a>
+</div>
+
+<div class="page-nav">
+<a href="private-transfer.html" class="prev">
+<span class="nav-label">← 前へ</span>
+<span class="nav-title">プライベート送金</span>
+</a>
+<a href="using-cli.html" class="next">
+<span class="nav-label">次へ →</span>
+<span class="nav-title">CLIの使い方</span>
+</a>
+</div>
+</div>
+</main>
+</div>
+
+<script>
+function toggleSidebar() {
+document.getElementById('sidebar').classList.toggle('open');
+document.getElementById('overlay').classList.toggle('open');
+}
+</script>
+</body>
+
+</html>

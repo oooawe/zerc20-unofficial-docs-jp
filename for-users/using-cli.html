@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<!--
+© 2026 zerc20.io
+Original content & materials: zerc20.io (all rights reserved by respective owner)
+This page is an unofficial Japanese translation / adaptation by oawe-lab.
+Source/Reference: https://zerc20.io
+-->
+
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLIの使い方 | zERC20 ドキュメント</title>
+<meta name="description" content="zERC20コマンドラインインターフェースのインストールと使用方法">
+<link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
+<link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+<button class="menu-toggle" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
+<div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo"><img src="/assets/z.svg" width="77%" height="auto" alt="zERC20"></div>
+<div class="sidebar-top">
+<a href="/index.html">
+<div class="sidebar-title">zERC20</div>
+<div class="sidebar-subtitle">日本語ドキュメント - 非公式</div>
+</a>
+</div>
+</div>
+<nav class="sidebar-nav">
+<div class="nav-section">
+<div class="nav-section-title">概要</div>
+<a href="../index.html" class="nav-link">はじめに</a>
+<a href="../overview/how-it-works.html" class="nav-link">zERC20の仕組み</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">ユーザー向け</div>
+<a href="getting-started.html" class="nav-link">フロントエンドの使い方</a>
+<a href="private-transfer.html" class="nav-link sub">プライベート送金</a>
+<a href="scan-receives.html" class="nav-link sub">受信スキャン</a>
+<a href="using-cli.html" class="nav-link active">CLIの使い方</a>
+<a href="fees-and-rewards.html" class="nav-link">手数料とリワード</a>
+<a href="faq.html" class="nav-link">よくある質問</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">開発者向け</div>
+<a href="../for-developers/architecture.html" class="nav-link">アーキテクチャ概要</a>
+<a href="../for-developers/sdk-guide.html" class="nav-link">SDKガイド</a>
+<a href="../for-developers/integration.html" class="nav-link">インテグレーションガイド</a>
+<a href="../for-developers/circuit-setup.html" class="nav-link">回路セットアップ</a>
+<a href="../for-developers/proof-of-innocence.html" class="nav-link">潔白の証明（計画中）</a>
+<a href="../for-developers/specs.html" class="nav-link">技術仕様</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">リファレンス</div>
+<a href="../reference/addresses.html" class="nav-link">コントラクトアドレス</a>
+<a href="../reference/links.html" class="nav-link">外部リンク</a>
+<a href="../reference/glossary.html" class="nav-link">用語集</a>
+</div>
+</nav>
+<div class="sidebar-footer">
+<a href="https://zerc20.gitbook.io/zerc20/for-users/getting-started-1" target="_blank" rel="noopener">原文（英語）↗&nbsp;</a>
+</div>
+</aside>
+
+<main class="main">
+<div class="content">
+<h1>CLIの使い方</h1>
+<p class="page-description">このガイドでは、zERC20コマンドラインインターフェースのインストールと使用方法を説明します。</p>
+
+<h2>インストール</h2>
+<pre><code>git clone https://github.com/InternetMaximalism/zerc20.git
+cd zerc20/cli
+cargo install --path .</code></pre>
+<p>これにより、CLIバイナリが <code>zerc20-cli</code> としてインストールされます（古いバージョンでは <code>cli</code> としてインストールされる場合があります）。
+</p>
+<p>または、リポジトリから直接実行することもできます:</p>
+<pre><code>cd zerc20/cli
+cargo run -r -- &lt;コマンド&gt; ...</code></pre>
+
+<h2>前提条件</h2>
+
+<h3>回路アーティファクト</h3>
+<p>引き出し証明の生成には回路アーティファクトが必要です。CLIを使用する前にダウンロードしてください:</p>
+<pre><code>cargo install --path ../circuit-setup
+zerc20-circuit-setup download --version 1.1.0</code></pre>
+<p>詳細は<a href="../for-developers/circuit-setup.html">回路セットアップ</a>をご覧ください。</p>
+
+<h2>設定</h2>
+
+<h3>環境変数</h3>
+<p><code>.env</code> ファイルから環境変数を読み込みます（CLIディレクトリの <code>.env.example</code> を参照）。</p>
+<p>メインネット/テストネットの値については<a href="../reference/addresses.html#icp-canister-ids">ICP Canister
+ID</a>をご確認ください。</p>
+
+<h2>基本コマンド</h2>
+
+<h3>インボイスの発行</h3>
+<p>支払いを受け取るためのバーンアドレスを生成します:</p>
+<pre><code>zerc20-cli invoice create \
+--chain-id &lt;CHAIN_ID&gt; \
+--token &lt;TOKEN&gt; \
+--amount &lt;AMOUNT&gt;</code></pre>
+
+<h3>インボイスの一覧表示</h3>
+<p>インボイスを表示します:</p>
+<pre><code>zerc20-cli invoice list</code></pre>
+
+<h3>送金（トランスファー）</h3>
+<p>バーンアドレスにzERC20を送金します:</p>
+<pre><code>zerc20-cli transfer \
+--chain-id &lt;CHAIN_ID&gt; \
+--to &lt;BURN_ADDRESS&gt; \
+--amount &lt;AMOUNT&gt;</code></pre>
+
+<h3>インボイスの状態確認</h3>
+<pre><code>zerc20-cli invoice status \
+--chain-id &lt;CHAIN_ID&gt; \
+--invoice-id &lt;INVOICE_ID&gt;</code></pre>
+
+<h3>資金の受け取り</h3>
+<p>証明を生成して受け取ります:</p>
+<pre><code>zerc20-cli receive \
+--chain-id &lt;CHAIN_ID&gt; \
+--invoice-id &lt;INVOICE_ID&gt;</code></pre>
+
+<h2>クイックスタート例</h2>
+<pre><code># 1. 受信者: インボイスを作成してバーンアドレスを取得
+zerc20-cli invoice create --chain-id 42161 --token zUSDC --amount 100
+
+# 2. 送信者: バーンアドレスにzERC20を送金
+zerc20-cli transfer --chain-id 42161 --to 0x... --amount 100
+
+# 3. 受信者: 状態を確認
+zerc20-cli invoice status --chain-id 42161 --invoice-id &lt;ID&gt;
+
+# 4. 受信者: 資金を受け取り
+zerc20-cli receive --chain-id 42161 --invoice-id &lt;ID&gt;</code></pre>
+
+<h2>重要な注意事項</h2>
+<ul>
+<li><strong>クロスチェーン対応:</strong> あるチェーンで送金し、別のチェーンで受け取ることができます</li>
+<li><strong>処理時間:</strong> プライベート送金はメインネットで通常30分〜1時間かかります</li>
+<li><strong>テストネットの制限:</strong> テストネットではLayerZeroの不安定性により、処理時間が長くなることがあります</li>
+</ul>
+
+<div class="page-nav">
+<a href="scan-receives.html" class="prev">
+<span class="nav-label">← 前へ</span>
+<span class="nav-title">受信スキャン</span>
+</a>
+<a href="fees-and-rewards.html" class="next">
+<span class="nav-label">次へ →</span>
+<span class="nav-title">手数料とリワード</span>
+</a>
+</div>
+</div>
+</main>
+</div>
+
+<script>
+function toggleSidebar() {
+document.getElementById('sidebar').classList.toggle('open');
+document.getElementById('overlay').classList.toggle('open');
+}
+</script>
+</body>
+
+</html>

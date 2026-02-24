@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+
+<!--
+© 2026 zerc20.io
+Original content & materials: zerc20.io (all rights reserved by respective owner)
+This page is an unofficial Japanese translation / adaptation by oawe-lab.
+Source/Reference: https://zerc20.io
+-->
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDKガイド | zERC20 ドキュメント</title>
+<meta name="description" content="zERC20 SDKのインストールと使用方法">
+<link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
+<link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+<button class="menu-toggle" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
+<div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo"><img src="/assets/z.svg" width="77%" height="auto" alt="zERC20"></div>
+<div class="sidebar-top">
+<a href="/index.html">
+<div class="sidebar-title">zERC20</div>
+<div class="sidebar-subtitle">日本語ドキュメント - 非公式</div>
+</a>
+</div>
+</div>
+<nav class="sidebar-nav">
+<div class="nav-section">
+<div class="nav-section-title">概要</div>
+<a href="../index.html" class="nav-link">はじめに</a>
+<a href="../overview/how-it-works.html" class="nav-link">zERC20の仕組み</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">ユーザー向け</div>
+<a href="../for-users/getting-started.html" class="nav-link">フロントエンドの使い方</a>
+<a href="../for-users/private-transfer.html" class="nav-link sub">プライベート送金</a>
+<a href="../for-users/scan-receives.html" class="nav-link sub">受信スキャン</a>
+<a href="../for-users/using-cli.html" class="nav-link">CLIの使い方</a>
+<a href="../for-users/fees-and-rewards.html" class="nav-link">手数料とリワード</a>
+<a href="../for-users/faq.html" class="nav-link">よくある質問</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">開発者向け</div>
+<a href="architecture.html" class="nav-link">アーキテクチャ概要</a>
+<a href="sdk-guide.html" class="nav-link active">SDKガイド</a>
+<a href="integration.html" class="nav-link">インテグレーションガイド</a>
+<a href="circuit-setup.html" class="nav-link">回路セットアップ</a>
+<a href="proof-of-innocence.html" class="nav-link">潔白の証明（計画中）</a>
+<a href="specs.html" class="nav-link">技術仕様</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">リファレンス</div>
+<a href="../reference/addresses.html" class="nav-link">コントラクトアドレス</a>
+<a href="../reference/links.html" class="nav-link">外部リンク</a>
+<a href="../reference/glossary.html" class="nav-link">用語集</a>
+</div>
+</nav>
+<div class="sidebar-footer">
+<a href="https://zerc20.gitbook.io/zerc20/for-developers/quickstart" target="_blank" rel="noopener">原文（英語）↗&nbsp;</a>
+</div>
+</aside>
+
+<main class="main">
+<div class="content">
+<h1>SDKガイド</h1>
+<p class="page-description">zERC20 SDKのセットアップと使い方を説明します。</p>
+
+<h2>前提条件</h2>
+<ul>
+<li>Node.js 18以上</li>
+<li>npmまたはyarn</li>
+</ul>
+
+<h2>インストール</h2>
+<pre><code>npm install @aspect-build/zerc20-sdk</code></pre>
+
+<h2>SDKの初期化</h2>
+<pre><code>import { Zerc20SDK } from '@aspect-build/zerc20-sdk';
+
+const sdk = new Zerc20SDK({
+// 設定オプション
+});</code></pre>
+
+<h2>ICPへの接続</h2>
+<p>ステルスメッセージングにはICPへの接続が必要です。SDKはICP Canisterとの通信を自動的に処理します。</p>
+
+<h2>トークンのロード</h2>
+
+<h3>オプションA: loadTokensで圧縮データからロード</h3>
+<pre><code>const tokens = await sdk.loadTokens();</code></pre>
+
+<h3>オプションB: normalizeTokensで生のJSONからロード</h3>
+<pre><code>const tokens = sdk.normalizeTokens(rawJsonData);</code></pre>
+
+<h3>トークンの検索とプロバイダーの作成</h3>
+<pre><code>// チェーンIDでトークンを検索
+const token = tokens.find(t => t.chainId === 42161);
+
+// プロバイダーを作成
+const provider = sdk.createProvider(token);</code></pre>
+
+<h2>最初のプライベート送信</h2>
+<pre><code>// プライベート送金を実行
+const result = await sdk.privateSend({
+token: 'zUSDC',
+amount: '100',
+recipientAddress: '0x...',
+sourceChainId: 42161,
+destinationChainId: 8453,
+});</code></pre>
+
+<h2>次のステップ</h2>
+<div class="card-grid">
+<a href="integration.html" class="card" style="text-decoration:none;">
+<div class="card-title">🔗 インテグレーション</div>
+<div class="card-text">zERC20をプロジェクトに統合する</div>
+</a>
+<a href="architecture.html" class="card" style="text-decoration:none;">
+<div class="card-title">🏗️ アーキテクチャ</div>
+<div class="card-text">システム全体の設計を理解する</div>
+</a>
+<a href="specs.html" class="card" style="text-decoration:none;">
+<div class="card-title">📋 技術仕様</div>
+<div class="card-text">詳細なプロトコル仕様</div>
+</a>
+</div>
+
+<div class="page-nav">
+<a href="architecture.html" class="prev">
+<span class="nav-label">← 前へ</span>
+<span class="nav-title">アーキテクチャ概要</span>
+</a>
+<a href="integration.html" class="next">
+<span class="nav-label">次へ →</span>
+<span class="nav-title">インテグレーションガイド</span>
+</a>
+</div>
+</div>
+</main>
+</div>
+
+<script>
+function toggleSidebar() {
+document.getElementById('sidebar').classList.toggle('open');
+document.getElementById('overlay').classList.toggle('open');
+}
+</script>
+</body>
+
+</html>

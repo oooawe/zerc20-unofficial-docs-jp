@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<!--
+© 2026 zerc20.io
+Original content & materials: zerc20.io (all rights reserved by respective owner)
+This page is an unofficial Japanese translation / adaptation by oawe-lab.
+Source/Reference: https://zerc20.io
+-->
+
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>よくある質問 | zERC20 ドキュメント</title>
+<meta name="description" content="zERC20に関するよくある質問とトラブルシューティング">
+<link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
+<link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+<button class="menu-toggle" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
+<div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo"><img src="/assets/z.svg" width="77%" height="auto" alt="zERC20"></div>
+<div class="sidebar-top">
+<a href="/index.html">
+<div class="sidebar-title">zERC20</div>
+<div class="sidebar-subtitle">日本語ドキュメント - 非公式</div>
+</a>
+</div>
+</div>
+<nav class="sidebar-nav">
+<div class="nav-section">
+<div class="nav-section-title">概要</div>
+<a href="../index.html" class="nav-link">はじめに</a>
+<a href="../overview/how-it-works.html" class="nav-link">zERC20の仕組み</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">ユーザー向け</div>
+<a href="getting-started.html" class="nav-link">フロントエンドの使い方</a>
+<a href="private-transfer.html" class="nav-link sub">プライベート送金</a>
+<a href="scan-receives.html" class="nav-link sub">受信スキャン</a>
+<a href="using-cli.html" class="nav-link">CLIの使い方</a>
+<a href="fees-and-rewards.html" class="nav-link">手数料とリワード</a>
+<a href="faq.html" class="nav-link active">よくある質問</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">開発者向け</div>
+<a href="../for-developers/architecture.html" class="nav-link">アーキテクチャ概要</a>
+<a href="../for-developers/sdk-guide.html" class="nav-link">SDKガイド</a>
+<a href="../for-developers/integration.html" class="nav-link">インテグレーションガイド</a>
+<a href="../for-developers/circuit-setup.html" class="nav-link">回路セットアップ</a>
+<a href="../for-developers/proof-of-innocence.html" class="nav-link">潔白の証明（計画中）</a>
+<a href="../for-developers/specs.html" class="nav-link">技術仕様</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">リファレンス</div>
+<a href="../reference/addresses.html" class="nav-link">コントラクトアドレス</a>
+<a href="../reference/links.html" class="nav-link">外部リンク</a>
+<a href="../reference/glossary.html" class="nav-link">用語集</a>
+</div>
+</nav>
+<div class="sidebar-footer">
+<a href="https://zerc20.gitbook.io/zerc20/for-users/faq" target="_blank" rel="noopener">原文（英語）↗&nbsp;</a>
+</div>
+</aside>
+
+<main class="main">
+<div class="content">
+<h1>よくある質問</h1>
+
+<h2>一般</h2>
+
+<h3>zERC20とは何ですか？</h3>
+<p>zERC20はEthereumおよびその他のEVMチェーンでプライベート送金を可能にするERC-20準拠トークンです。通常のトークンではすべての送金が公開されますが、zERC20はゼロ知識証明を使用して送信者と受信者の間のリンクを隠します。
+</p>
+
+<h3>zERC20はTornado Cashとどう違いますか？</h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>zERC20</th>
+<th>Tornado Cash</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>トークンタイプ</td>
+<td>ERC-20ラッパー（zUSDC、zETHなど）</td>
+<td>ETH/ERC-20デポジット</td>
+</tr>
+<tr>
+<td>固定額</td>
+<td>いいえ — 任意の金額</td>
+<td>はい — 固定プールサイズ</td>
+</tr>
+<tr>
+<td>クロスチェーン</td>
+<td>はい — LayerZero経由</td>
+<td>いいえ</td>
+</tr>
+<tr>
+<td>ウォレットUX</td>
+<td>標準的なMetaMask送金</td>
+<td>デポジット/引き出しUIが必要</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h3>サポートされているトークンは？</h3>
+<p>現在サポートされているラッパートークン:</p>
+<ul>
+<li><strong>zUSDC</strong>（ラップされたUSDC）</li>
+<li><strong>zETH</strong>（ラップされたETH）</li>
+<li><strong>zBNB</strong>（ラップされたBNB）</li>
+</ul>
+<p>サポートされているチェーンの完全なリストはフロントエンドをご確認ください。</p>
+
+<h2>プライバシー</h2>
+
+<h3>送金額は他の人に見えますか？</h3>
+<p>はい、送金額と引き出し額はオンチェーン上で可視です。金額のプライバシーを保護するには:</p>
+<ul>
+<li>バッチ引き出しを使用して複数の送金をまとめる</li>
+<li>部分引き出しを使用して正確な金額の一致を避ける</li>
+<li>可能な限り一般的な/端数のない金額を使用する</li>
+</ul>
+
+<h3>送信者に引き出し先を見られますか？</h3>
+<p>バーンアドレスを誰が生成したかによります:</p>
+<ul>
+<li><strong>送信者生成の場合:</strong> はい、送信者はあなたの引き出しアドレスを知っています（フロントエンドはこの方式をサポート）</li>
+<li><strong>受信者生成の場合:</strong> いいえ、送信者にはバーンアドレスしか見えません（CLIのみ）</li>
+</ul>
+
+<h3>IPアドレスは公開されますか？</h3>
+<p>zERC20自体はIPアドレスを公開しませんが:</p>
+<ul>
+<li>RPCプロバイダーはトランザクション送信時にあなたのIPを確認できます</li>
+<li>追加のIPプライバシーのためにVPNやTorの使用を検討してください</li>
+</ul>
+
+<h2>手数料とリワード</h2>
+
+<h3>アンラップ時に手数料がかかるのはなぜですか？</h3>
+<p>流動性が低いチェーンでアンラップする際に手数料が課されます。手数料はチェーン間のバランスの取れた流動性を促進します。手数料が高い場合は、手数料が低い別のチェーンの流動性にアクセスするためにクロスチェーンアンラップの使用を検討してください。
+</p>
+
+<h3>高いアンラップ手数料を避けるには？</h3>
+<p>クロスチェーンアンラップを使用して、より流動性の高い別のチェーンでアンラップしてください。フロントエンドには利用可能なすべてのオプションの手数料比較が表示されます。</p>
+
+<h3>ラップ時にボーナストークンを受け取ったのはなぜですか？</h3>
+<p>チェーンの流動性が低い場合、ラップして流動性を追加するとリワードを獲得できます。これらのリワードは以前のアンラップから徴収された手数料から支払われます。</p>
+
+<h3>現在の手数料はどこで確認できますか？</h3>
+<p>フロントエンドでWrap/Unwrapモーダルを開き、金額を入力してください。インターフェースに確認前の予想手数料またはリワードが表示されます。</p>
+<p>詳細は<a href="fees-and-rewards.html">手数料とリワード</a>をご覧ください。</p>
+
+<h2>送金</h2>
+
+<h3>プライベート送金にはどのくらい時間がかかりますか？</h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>ネットワーク</th>
+<th>所要時間</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>メインネット</td>
+<td>30分〜1時間</td>
+</tr>
+<tr>
+<td>テストネット</td>
+<td>LayerZeroの不安定性によりさらに長い場合あり</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h3>送金をキャンセルできますか？</h3>
+<p>zERC20がバーンアドレスに送信されると、取り消しやリダイレクトはできません。意図された受信者のみがゼロ知識証明を使用して引き出すことができます。</p>
+
+<h3>間違ったバーンアドレスに送金した場合はどうなりますか？</h3>
+<p>トークンはそのバーンアドレスの意図された受信者が引き出さない限り、永久にロックされます。送金前に必ずバーンアドレスを再確認してください。</p>
+
+<h2>トラブルシューティング</h2>
+
+<h3>プライベート送金が届かない</h3>
+<p><strong>症状:</strong> zERC20をバーンアドレスに送金したが、受信者に表示されない。</p>
+<p><strong>解決策:</strong></p>
+<div class="card">
+<div class="card-title">1. クロスチェーンメッセージングを待つ</div>
+<div class="card-text">
+<ul>
+<li>クロスチェーン送金はLayerZeroメッセージの伝播に30分〜1時間かかります</li>
+<li>テストネットではネットワークの不安定性によりさらに長くなることがあります</li>
+</ul>
+</div>
+</div>
+<div class="card">
+<div class="card-title">2. トランザクション状態を確認</div>
+<div class="card-text">
+<ul>
+<li>元のトランザクションが送信元チェーンで確認済みかを確認</li>
+<li>ブロックエクスプローラーでバーンアドレスの残高を確認</li>
+</ul>
+</div>
+</div>
+<div class="card">
+<div class="card-title">3. インボイスの状態を確認</div>
+<div class="card-text">
+<ul>
+<li>フロントエンド: ページを更新</li>
+<li>CLI:
+<code>zerc20-cli invoice status --chain-id &lt;CHAIN_ID&gt; --invoice-id &lt;INVOICE_ID&gt;</code>
+</li>
+</ul>
+</div>
+</div>
+<div class="card">
+<div class="card-title">4. バーンアドレスを確認</div>
+<div class="card-text">
+<ul>
+<li>送信者が正しいバーンアドレスを使用したか確認</li>
+<li>EVMアドレスは大文字/小文字を区別しません（例: <code>0xAbc...</code> と <code>0xabc...</code>
+は同じアドレス）が、タイポを防ぐために常にチェックサム付き（大小混合、EIP-55）形式を使用してください</li>
+</ul>
+</div>
+</div>
+
+<h3>トークンがバーンアドレスに固まっているように見える</h3>
+<p><strong>症状:</strong> zERC20がバーンアドレスに表示されているが引き出せない。</p>
+<p>これは想定された動作です。バーンアドレスに送信されたトークンは永久にそこに残ります—引き出し時に「移動」されることはありません。代わりに、ZKP検証を使用して同等量が受信者にミントされます。</p>
+<p>「固まった」トークンは、ミントされた引き出しを裏付けるバーン済み供給量を表しています。</p>
+
+<h2>まだ解決しませんか？</h2>
+<ul>
+<li>コマンドリファレンスは<a href="using-cli.html">CLIガイド</a>をご確認ください</li>
+<li>技術的な詳細は<a href="../overview/how-it-works.html">zERC20の仕組み</a>をご覧ください</li>
+<li>コミュニティサポートは<a href="https://discord.gg/U3twJUfzmE" target="_blank" rel="noopener">Discord
+↗&nbsp;</a>に参加してください</li>
+</ul>
+
+<div class="page-nav">
+<a href="fees-and-rewards.html" class="prev">
+<span class="nav-label">← 前へ</span>
+<span class="nav-title">手数料とリワード</span>
+</a>
+<a href="../for-developers/architecture.html" class="next">
+<span class="nav-label">次へ →</span>
+<span class="nav-title">アーキテクチャ概要</span>
+</a>
+</div>
+</div>
+</main>
+</div>
+
+<script>
+function toggleSidebar() {
+document.getElementById('sidebar').classList.toggle('open');
+document.getElementById('overlay').classList.toggle('open');
+}
+</script>
+</body>
+
+</html>

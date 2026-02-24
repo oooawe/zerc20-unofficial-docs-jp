@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<!--
+© 2026 zerc20.io
+Original content & materials: zerc20.io (all rights reserved by respective owner)
+This page is an unofficial Japanese translation / adaptation by oawe-lab.
+Source/Reference: https://zerc20.io
+-->
+
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>アーキテクチャ概要 | zERC20 ドキュメント</title>
+<meta name="description" content="zERC20のオンチェーンコントラクト、オフチェーンサービス、ICPステルスメッセージングレイヤーのアーキテクチャ">
+<link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
+<link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+<button class="menu-toggle" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
+<div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo"><img src="/assets/z.svg" width="77%" height="auto" alt="zERC20"></div>
+<div class="sidebar-top">
+<a href="/index.html">
+<div class="sidebar-title">zERC20</div>
+<div class="sidebar-subtitle">日本語ドキュメント - 非公式</div>
+</a>
+</div>
+</div>
+<nav class="sidebar-nav">
+<div class="nav-section">
+<div class="nav-section-title">概要</div>
+<a href="../index.html" class="nav-link">はじめに</a>
+<a href="../overview/how-it-works.html" class="nav-link">zERC20の仕組み</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">ユーザー向け</div>
+<a href="../for-users/getting-started.html" class="nav-link">フロントエンドの使い方</a>
+<a href="../for-users/private-transfer.html" class="nav-link sub">プライベート送金</a>
+<a href="../for-users/scan-receives.html" class="nav-link sub">受信スキャン</a>
+<a href="../for-users/using-cli.html" class="nav-link">CLIの使い方</a>
+<a href="../for-users/fees-and-rewards.html" class="nav-link">手数料とリワード</a>
+<a href="../for-users/faq.html" class="nav-link">よくある質問</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">開発者向け</div>
+<a href="architecture.html" class="nav-link active">アーキテクチャ概要</a>
+<a href="sdk-guide.html" class="nav-link">SDKガイド</a>
+<a href="integration.html" class="nav-link">インテグレーションガイド</a>
+<a href="circuit-setup.html" class="nav-link">回路セットアップ</a>
+<a href="proof-of-innocence.html" class="nav-link">潔白の証明（計画中）</a>
+<a href="specs.html" class="nav-link">技術仕様</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">リファレンス</div>
+<a href="../reference/addresses.html" class="nav-link">コントラクトアドレス</a>
+<a href="../reference/links.html" class="nav-link">外部リンク</a>
+<a href="../reference/glossary.html" class="nav-link">用語集</a>
+</div>
+</nav>
+<div class="sidebar-footer">
+<a href="https://zerc20.gitbook.io/zerc20/for-developers/architecture" target="_blank" rel="noopener">原文（英語）↗&nbsp;</a>
+</div>
+</aside>
+
+<main class="main">
+<div class="content">
+<h1>アーキテクチャ概要</h1>
+<p class="page-description">このドキュメントでは、zERC20がオンチェーンコントラクト、オフチェーンサービス、Internet Computer (ICP)
+ステルスメッセージングレイヤーにわたってどのように構築されているかを説明します。</p>
+
+<ul class="feature-list">
+<li><strong>プライバシー保護送金:</strong> 送信者はステルスアドレスにzERC20をバーン。受信者は同じまたは別のチェーンで、紐付け可能なオンチェーンメタデータなしにミント
+</li>
+<li><strong>ERC-20互換:</strong> 標準トークンインターフェースが既存のウォレット、DEX、DeFiプロトコルで動作</li>
+<li><strong>証明可能な整合性:</strong> すべてのミントはゼロ知識証明（Nova/Groth16）に依存</li>
+<li><strong>スケーラビリティ:</strong> PoseidonマークルツリーとIVCで数千の送金を1つの証明にバッチ化</li>
+<li><strong>クロスチェーン:</strong> LayerZeroベースのHubが全チェーンのルートを集約</li>
+</ul>
+
+<h2>オンチェーンコントラクト</h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>コントラクト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>zERC20</strong></td>
+<td>アップグレード可能なERC-20。<code>IndexedTransfer</code>イベントを発行し、SHA-256ハッシュチェーンを維持し、検証済みミント用の<code>teleport</code>を公開
+</td>
+</tr>
+<tr>
+<td><strong>Verifier</strong></td>
+<td>LayerZero OApp。Nova/Groth16証明を検証し、受信者ごとのテレポート額を追跡し、ルートをHubにリレー</td>
+</tr>
+<tr>
+<td><strong>Hub</strong></td>
+<td>全チェーンの転送ルートをPoseidonツリーに集約し、グローバルルートを全Verifierにブロードキャスト</td>
+</tr>
+<tr>
+<td><strong>LiquidityManager</strong></td>
+<td>流動性ポリシーを管理し、原資産のラップ/アンラップを処理</td>
+</tr>
+<tr>
+<td><strong>Adaptor</strong></td>
+<td>別チェーンの方が流動性が有利な場合のStargate経由のクロスチェーン出口</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h2>オフチェーンサービス</h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>サービス</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Indexer</strong></td>
+<td>Actix HTTPサーバー + Postgres。オンチェーンイベントを同期し、マークルツリーを維持し、ルート証明を生成</td>
+</tr>
+<tr>
+<td><strong>Decider Prover</strong></td>
+<td>オンチェーン検証用のNova証明を確定するHTTPワーカー</td>
+</tr>
+<tr>
+<td><strong>Cross-chain Job</strong></td>
+<td>転送ルートをHubにリレーし、ブロードキャストをトリガー</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h2>ICPステルスストレージ</h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>Canister</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Key Manager Canister</strong></td>
+<td>VetKDベースのIBE鍵導出（EVMアドレスごと）</td>
+</tr>
+<tr>
+<td><strong>Storage Canister</strong></td>
+<td>暗号化されたアナウンスメントと署名済みインボイスを保存</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h2>データフロー</h2>
+
+<h3>1. 転送の発行</h3>
+<p>すべての転送（ミント/送金/バーン）はSHA-256ハッシュチェーンに追加され、インデックス付きイベントを発行します。</p>
+<pre><code>zERC20._update() → IndexedTransferを発行 → hashChainを更新</code></pre>
+
+<h3>2. ルート証明</h3>
+<p>インデクサーがPoseidonマークルツリーを維持し、定期的にIVC証明を使用してオンチェーンで新しい転送ルートを証明します。</p>
+
+<h3>3. クロスチェーン集約</h3>
+<p>各チェーンのVerifierはその転送ルートをHubにリレーし、Hubはそれらを集約してグローバルルートを全Verifierにブロードキャストします。</p>
+
+<h3>4. プライベート送金</h3>
+<pre><code>送信者 → バーンアドレスへのzERC20送金 → 受信者がICPストレージをスキャン → ZKP生成 → Verifier.teleport() → zERC20が受信者にミント</code></pre>
+
+<h2>暗号プリミティブ</h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>プリミティブ</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Poseidon Hash</strong></td>
+<td>マークルツリー、バーンアドレス導出、受信者バインディング</td>
+</tr>
+<tr>
+<td><strong>SHA-256</strong></td>
+<td>ハッシュチェーンコミットメント（BN254用に248ビットに切り詰め）</td>
+</tr>
+<tr>
+<td><strong>Nova Folding</strong></td>
+<td>バッチ引き出し証明、ルート遷移証明</td>
+</tr>
+<tr>
+<td><strong>Groth16</strong></td>
+<td>シングル引き出し証明</td>
+</tr>
+<tr>
+<td><strong>VetKD/IBE</strong></td>
+<td>ICP上の暗号化ステルスメッセージング</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h2>信頼モデル</h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>エンティティ</th>
+<th>権限/能力</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>コントラクトオーナー</strong></td>
+<td>コントラクトのアップグレード、Verifierのローテーションが可能</td>
+</tr>
+<tr>
+<td><strong>インデクサーオペレーター</strong></td>
+<td>送信者/バーンアドレス/金額を観察。クエリ時に受信者を把握</td>
+</tr>
+<tr>
+<td><strong>ICP Canister</strong></td>
+<td>暗号化データを保存。受信者の鍵なしに復号不可</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout callout-warning">
+<div class="callout-title">⚠️ 最大限のプライバシーのために</div>
+<p>送信者-受信者の紐付け漏洩を避けるために、独自のインデクサーインスタンスを運用してください。</p>
+</div>
+
+<div class="page-nav">
+<a href="../for-users/faq.html" class="prev">
+<span class="nav-label">← 前へ</span>
+<span class="nav-title">よくある質問</span>
+</a>
+<a href="sdk-guide.html" class="next">
+<span class="nav-label">次へ →</span>
+<span class="nav-title">SDKガイド</span>
+</a>
+</div>
+</div>
+</main>
+</div>
+
+<script>
+function toggleSidebar() {
+document.getElementById('sidebar').classList.toggle('open');
+document.getElementById('overlay').classList.toggle('open');
+}
+</script>
+</body>
+
+</html>

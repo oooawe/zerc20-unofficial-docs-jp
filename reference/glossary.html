@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<!--
+© 2026 zerc20.io
+Original content & materials: zerc20.io (all rights reserved by respective owner)
+This page is an unofficial Japanese translation / adaptation by oawe-lab.
+Source/Reference: https://zerc20.io
+-->
+
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>用語集 | zERC20 ドキュメント</title>
+<meta name="description" content="zERC20に関連する主要な用語の定義集">
+<link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
+<link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+<button class="menu-toggle" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
+<div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo"><img src="/assets/z.svg" width="77%" height="auto" alt="zERC20"></div>
+<div class="sidebar-top">
+<a href="/index.html">
+<div class="sidebar-title">zERC20</div>
+<div class="sidebar-subtitle">日本語ドキュメント - 非公式</div>
+</a>
+</div>
+</div>
+<nav class="sidebar-nav">
+<div class="nav-section">
+<div class="nav-section-title">概要</div><a href="../index.html" class="nav-link">はじめに</a><a href="../overview/how-it-works.html" class="nav-link">zERC20の仕組み</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">ユーザー向け</div><a href="../for-users/getting-started.html" class="nav-link">フロントエンドの使い方</a><a href="../for-users/private-transfer.html" class="nav-link sub">プライベート送金</a><a href="../for-users/scan-receives.html" class="nav-link sub">受信スキャン</a><a href="../for-users/using-cli.html" class="nav-link">CLIの使い方</a><a href="../for-users/fees-and-rewards.html" class="nav-link">手数料とリワード</a><a href="../for-users/faq.html" class="nav-link">よくある質問</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">開発者向け</div><a href="../for-developers/architecture.html" class="nav-link">アーキテクチャ概要</a><a href="../for-developers/sdk-guide.html" class="nav-link">SDKガイド</a><a href="../for-developers/integration.html" class="nav-link">インテグレーションガイド</a><a href="../for-developers/circuit-setup.html" class="nav-link">回路セットアップ</a><a href="../for-developers/proof-of-innocence.html" class="nav-link">潔白の証明（計画中）</a><a href="../for-developers/specs.html" class="nav-link">技術仕様</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">リファレンス</div><a href="addresses.html" class="nav-link">コントラクトアドレス</a><a href="links.html" class="nav-link">外部リンク</a><a href="glossary.html" class="nav-link active">用語集</a>
+</div>
+</nav>
+<div class="sidebar-footer"><a href="https://zerc20.gitbook.io/zerc20/reference/glossary" target="_blank" rel="noopener">原文（英語）↗&nbsp;</a></div>
+</aside>
+
+<main class="main">
+<div class="content">
+<h1>用語集</h1>
+<p class="page-description">zERC20に関連する主要な用語の定義集です。</p>
+
+<h2>コア概念</h2>
+
+<div class="def-term">バーンアドレス（Burn Address）</div>
+<div class="def-description">
+対応する秘密鍵が存在しないワンタイムのEthereumアドレス。バーンアドレスに送信されたトークンは誰にも移動できず、実質的に「バーン」されます。受信者の引き出しアドレスとシークレット値から暗号学的に導出されます。
+</div>
+
+<div class="def-term">プライベート送金（Private Transfer）</div>
+<div class="def-description">
+送信者と受信者のリンクがオンチェーン観察者から隠される送金。zERC20では、トークンをバーンアドレスに送信し、ゼロ知識証明で引き出すことで実現されます。</div>
+
+<div class="def-term">ゼロ知識証明 / ZKP（Zero-Knowledge Proof）</div>
+<div class="def-description">
+ある当事者が値を明かさずにその値を知っていることを証明できる暗号技術。zERC20では、ZKPにより受信者がバーンアドレスから資金を引き出す権利があることを、どのバーンアドレスから引き出しているかを明かさずに証明します。
+</div>
+
+<div class="def-term">テレポート（Teleport）</div>
+<div class="def-description">
+ゼロ知識証明が検証された後に受信者にトークンをミントするオンチェーン操作。<code>Verifier.teleport()</code>（バッチ）および<code>Verifier.singleTeleport()</code>（シングル）コントラクト関数に対応。プライベート送金の最終ステップであり、証明は受信者が任意のチェーンでバーンされた資金を受け取る権利があることを示し、テレポートは送金先チェーンで同等量をミントします。
+</div>
+
+<div class="def-term">引き出し（Withdrawal）</div>
+<div class="def-description">ゼロ知識証明を使用してバーンアドレスからトークンを請求するプロセス。受信者が選択したアドレスにトークンがミントされます。</div>
+
+<hr>
+
+<h2>トークン用語</h2>
+
+<div class="def-term">zERC20</div>
+<div class="def-description">プライバシー対応ERC-20ラッパートークン（zUSDC、zETH、zBNBなど）の総称。</div>
+
+<div class="def-term">ラッパートークン（Wrapper Token）</div>
+<div class="def-description">別のトークンを1:1の比率で表すトークン。zUSDCはUSDCのラッパーであり、USDCをデポジットすると同等量のzUSDCを受け取ります。
+</div>
+
+<div class="def-term">原資産トークン（Underlying Token）</div>
+<div class="def-description">zERC20ラッパーを裏付ける元のトークン。USDCはzUSDCの原資産トークンです。</div>
+
+<hr>
+
+<h2>手数料と流動性</h2>
+
+<div class="def-term">アンラップ手数料（Unwrap Fee）</div>
+<div class="def-description">
+流動性が低いチェーンでzERC20を原資産トークンに変換する際に課される手数料。流動性がターゲットレベルを大きく下回るほど手数料が高くなります。流動性がターゲット以上の場合は手数料なし。</div>
+
+<div class="def-term">ラップリワード（Wrap Reward）</div>
+<div class="def-description">
+流動性が低いチェーンで原資産トークンをzERC20にラップする際に受け取るボーナス。リワードはユーザーが必要な場所に流動性を追加することを促進します。蓄積された手数料サープラスから支払われます。
+</div>
+
+<div class="def-term">ターゲット流動性（Target Liquidity）</div>
+<div class="def-description">各チェーンが保持すべき理想的な原資産トークン量。全チェーンの平均流動性に基づいてFee Managerが自動的に設定します。</div>
+
+<div class="def-term">手数料サープラス（Fee Surplus）</div>
+<div class="def-description">アンラップから蓄積された手数料で、ラップリワードの支払いに使用されます。サープラスが枯渇するとラップリワードは減額されます。</div>
+
+<div class="def-term">クロスチェーンアンラップ（Cross-Chain Unwrap）</div>
+<div class="def-description">
+保持しているチェーンとは別のチェーンでzERC20をアンラップすること。通常、より良い流動性と低い手数料にアクセスするために使用します。プロセスはzERC20をブリッジし、送金先チェーンでアンラップし、原資産を元のチェーンにブリッジバックします。
+</div>
+
+<div class="def-term">インセンティブカーブ（Incentive Curve）</div>
+<div class="def-description">ターゲットに対する現在の流動性に基づいて手数料とリワードのレートを決定する数学的公式。流動性がターゲットを下回ると増加する線形密度関数を使用します。
+</div>
+
+<hr>
+
+<h2>技術用語</h2>
+
+<div class="def-term">マークルツリー（Merkle Tree）</div>
+<div class="def-description">
+特定のデータ（バーントランザクションなど）がより大きなセットの一部であることを効率的に検証するデータ構造。zERC20はPoseidonハッシュベースのマークルツリーを使用します。</div>
+
+<div class="def-term">Poseidon Hash</div>
+<div class="def-description">ゼロ知識回路での使用に最適化されたハッシュ関数。zERC20のマークルツリーで効率的な証明生成に使用されます。</div>
+
+<div class="def-term">Nova</div>
+<div class="def-description">逐次検証可能な計算（IVC）のためのフォールディング方式。zERC20ではバッチ引き出し証明に使用されます。</div>
+
+<div class="def-term">Groth16</div>
+<div class="def-description">zERC20でシングル引き出しに使用されるゼロ知識証明システム。小さな証明サイズと高速な検証で知られています。</div>
+
+<div class="def-term">ハッシュチェーン（Hash Chain）</div>
+<div class="def-description">各ハッシュが前のハッシュを含むハッシュの連鎖。zERC20ではSHA-256ハッシュチェーンを使用して全送金の決定論的な順序付けを保証します。
+</div>
+
+<hr>
+
+<h2>インフラストラクチャ用語</h2>
+
+<div class="def-term">LayerZero</div>
+<div class="def-description">zERC20のクロスチェーン機能を実現するクロスチェーンメッセージングプロトコル。LayerZeroはチェーン間でマークルルートをリレーします。
+</div>
+
+<div class="def-term">Hub</div>
+<div class="def-description">全チェーンのマークルルートをグローバルルートに集約する中央コントラクト。クロスチェーン引き出しを可能にします。</div>
+
+<div class="def-term">Verifier</div>
+<div class="def-description">ゼロ知識証明を検証し引き出しを承認するチェーンごとのコントラクト。</div>
+
+<div class="def-term">インデクサー（Indexer）</div>
+<div class="def-description">すべてのzERC20送金を追跡し、マークルツリーを維持し、証明生成用データを提供するオフチェーンサービス。</div>
+
+<div class="def-term">ICP（Internet Computer）</div>
+<div class="def-description">zERC20のステルスメッセージングインフラをホストするブロックチェーンプラットフォーム。ICP
+Canisterは暗号化されたバーンアドレス情報を保存します。</div>
+
+<div class="def-term">VetKD</div>
+<div class="def-description">検証可能な暗号化閾値鍵導出（Verifiable Encrypted Threshold Key Derivation）。ICP
+Canisterが送信者と受信者間の暗号化メッセージングを可能にするために使用します。</div>
+
+<hr>
+
+<h2>ユーザー向け用語</h2>
+
+<div class="def-term">インボイス（Invoice）</div>
+<div class="def-description">バーンアドレスを含む支払い要求。受信者がインボイスを生成し、支払い者に共有します。</div>
+
+<div class="def-term">スキャン（Scan）</div>
+<div class="def-description">ICPストレージCanisterからのアナウンスメントを復号することで、着信プライベート送金を確認するプロセス。</div>
+
+<div class="def-term">バッチ引き出し（Batch Withdrawal）</div>
+<div class="def-description">複数の着金送金を1つの引き出しトランザクションにまとめること。合計額のみがオンチェーン上で公開されます。</div>
+
+<div class="def-term">部分引き出し（Partial Withdrawal）</div>
+<div class="def-description">受け取った全額より少ない金額を引き出すこと。送金額の隠蔽に有用です。</div>
+
+<hr>
+
+<h2>プライバシー用語</h2>
+
+<div class="def-term">送信者-受信者の紐付け不可能性（Sender-Recipient Unlinkability）</div>
+<div class="def-description">オンチェーン観察者が送信者のアドレスと受信者の引き出しアドレスの関係を判別できないという特性。</div>
+
+<div class="def-term">金額フィンガープリンティング（Amount Fingerprinting）</div>
+<div class="def-description">珍しいまたは固有の送金額がデポジットと引き出しの相関付けに使用される可能性があるリスク。</div>
+
+<div class="page-nav">
+<a href="links.html" class="prev">
+<span class="nav-label">← 前へ</span>
+<span class="nav-title">外部リンク</span>
+</a>
+<div></div>
+</div>
+</div>
+</main>
+</div>
+
+<script>
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('open'); }
+</script>
+</body>
+
+</html>

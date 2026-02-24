@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<!--
+© 2026 zerc20.io
+Original content & materials: zerc20.io (all rights reserved by respective owner)
+This page is an unofficial Japanese translation / adaptation by oawe-lab.
+Source/Reference: https://zerc20.io
+-->
+
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>技術仕様 | zERC20 ドキュメント</title>
+<meta name="description" content="zERC20の技術仕様、値制約、証明タイプ、主要コントラクト">
+<link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
+<link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+<button class="menu-toggle" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
+<div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo"><img src="/assets/z.svg" width="77%" height="auto" alt="zERC20"></div>
+<div class="sidebar-top">
+<a href="/index.html">
+<div class="sidebar-title">zERC20</div>
+<div class="sidebar-subtitle">日本語ドキュメント - 非公式</div>
+</a>
+</div>
+</div>
+<nav class="sidebar-nav">
+<div class="nav-section">
+<div class="nav-section-title">概要</div><a href="../index.html" class="nav-link">はじめに</a><a href="../overview/how-it-works.html" class="nav-link">zERC20の仕組み</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">ユーザー向け</div><a href="../for-users/getting-started.html" class="nav-link">フロントエンドの使い方</a><a href="../for-users/private-transfer.html" class="nav-link sub">プライベート送金</a><a href="../for-users/scan-receives.html" class="nav-link sub">受信スキャン</a><a href="../for-users/using-cli.html" class="nav-link">CLIの使い方</a><a href="../for-users/fees-and-rewards.html" class="nav-link">手数料とリワード</a><a href="../for-users/faq.html" class="nav-link">よくある質問</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">開発者向け</div><a href="architecture.html" class="nav-link">アーキテクチャ概要</a><a href="sdk-guide.html" class="nav-link">SDKガイド</a><a href="integration.html" class="nav-link">インテグレーションガイド</a><a href="circuit-setup.html" class="nav-link">回路セットアップ</a><a href="proof-of-innocence.html" class="nav-link">潔白の証明（計画中）</a><a href="specs.html" class="nav-link active">技術仕様</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">リファレンス</div><a href="../reference/addresses.html" class="nav-link">コントラクトアドレス</a><a href="../reference/links.html" class="nav-link">外部リンク</a><a href="../reference/glossary.html" class="nav-link">用語集</a>
+</div>
+</nav>
+<div class="sidebar-footer"><a href="https://zerc20.gitbook.io/zerc20/for-developers/specs" target="_blank" rel="noopener">原文（英語）↗&nbsp;</a></div>
+</aside>
+
+<main class="main">
+<div class="content">
+<h1>技術仕様</h1>
+<p class="page-description">zERC20プロトコルの技術仕様、値制約、証明タイプ、主要コントラクトの概要です。</p>
+
+<h2>仕様</h2>
+
+<h2>クイックリファレンス</h2>
+
+<h3>値制約</h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>パラメータ</th>
+<th>値</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>マークルツリー深度</td>
+<td>32</td>
+<td>最大2³²のリーフをサポート</td>
+</tr>
+<tr>
+<td>ハッシュ関数</td>
+<td>Poseidon (BN254)</td>
+<td>マークルツリーとバーンアドレス導出</td>
+</tr>
+<tr>
+<td>ハッシュチェーン</td>
+<td>SHA-256 (248-bit truncated)</td>
+<td>BN254フィールドに適合するよう切り詰め</td>
+</tr>
+<tr>
+<td>楕円曲線</td>
+<td>BN254</td>
+<td>証明システムのベース曲線</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h3>証明タイプ</h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>証明タイプ</th>
+<th>方式</th>
+<th>ユースケース</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>シングル引き出し</td>
+<td>Groth16</td>
+<td>1つのバーンアドレスからの引き出し証明</td>
+</tr>
+<tr>
+<td>バッチ引き出し</td>
+<td>Nova (IVC)</td>
+<td>複数のバーンアドレスからの一括引き出し証明</td>
+</tr>
+<tr>
+<td>ルート遷移</td>
+<td>Nova (IVC)</td>
+<td>マークルツリールートの更新証明</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h3>主要コントラクト</h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>コントラクト</th>
+<th>機能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>zERC20</strong></td>
+<td>ERC-20トークン、ハッシュチェーン、テレポート</td>
+</tr>
+<tr>
+<td><strong>Verifier</strong></td>
+<td>ZKP検証、テレポート追跡、ルートリレー</td>
+</tr>
+<tr>
+<td><strong>Hub</strong></td>
+<td>グローバルルート集約、ブロードキャスト</td>
+</tr>
+<tr>
+<td><strong>LiquidityManager</strong></td>
+<td>流動性ポリシー、ラップ/アンラップ、インセンティブカーブ</td>
+</tr>
+<tr>
+<td><strong>Adaptor</strong></td>
+<td>クロスチェーン出口（Stargate経由）</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="page-nav">
+<a href="proof-of-innocence.html" class="prev">
+<span class="nav-label">← 前へ</span>
+<span class="nav-title">潔白の証明（計画中）</span>
+</a>
+<a href="../reference/addresses.html" class="next">
+<span class="nav-label">次へ →</span>
+<span class="nav-title">コントラクトアドレス</span>
+</a>
+</div>
+</div>
+</main>
+</div>
+
+<script>
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('open'); }
+</script>
+</body>
+
+</html>

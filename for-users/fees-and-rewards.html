@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<!--
+© 2026 zerc20.io
+Original content & materials: zerc20.io (all rights reserved by respective owner)
+This page is an unofficial Japanese translation / adaptation by oawe-lab.
+Source/Reference: https://zerc20.io
+-->
+
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>手数料とリワード | zERC20 ドキュメント</title>
+<meta name="description" content="zERC20のラップ/アンラップ手数料とリワードの仕組み">
+<link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
+<link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+<button class="menu-toggle" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
+<div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo"><img src="/assets/z.svg" width="77%" height="auto" alt="zERC20"></div>
+<div class="sidebar-top">
+<a href="/index.html">
+<div class="sidebar-title">zERC20</div>
+<div class="sidebar-subtitle">日本語ドキュメント - 非公式</div>
+</a>
+</div>
+</div>
+<nav class="sidebar-nav">
+<div class="nav-section">
+<div class="nav-section-title">概要</div>
+<a href="../index.html" class="nav-link">はじめに</a>
+<a href="../overview/how-it-works.html" class="nav-link">zERC20の仕組み</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">ユーザー向け</div>
+<a href="getting-started.html" class="nav-link">フロントエンドの使い方</a>
+<a href="private-transfer.html" class="nav-link sub">プライベート送金</a>
+<a href="scan-receives.html" class="nav-link sub">受信スキャン</a>
+<a href="using-cli.html" class="nav-link">CLIの使い方</a>
+<a href="fees-and-rewards.html" class="nav-link active">手数料とリワード</a>
+<a href="faq.html" class="nav-link">よくある質問</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">開発者向け</div>
+<a href="../for-developers/architecture.html" class="nav-link">アーキテクチャ概要</a>
+<a href="../for-developers/sdk-guide.html" class="nav-link">SDKガイド</a>
+<a href="../for-developers/integration.html" class="nav-link">インテグレーションガイド</a>
+<a href="../for-developers/circuit-setup.html" class="nav-link">回路セットアップ</a>
+<a href="../for-developers/proof-of-innocence.html" class="nav-link">潔白の証明（計画中）</a>
+<a href="../for-developers/specs.html" class="nav-link">技術仕様</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">リファレンス</div>
+<a href="../reference/addresses.html" class="nav-link">コントラクトアドレス</a>
+<a href="../reference/links.html" class="nav-link">外部リンク</a>
+<a href="../reference/glossary.html" class="nav-link">用語集</a>
+</div>
+</nav>
+<div class="sidebar-footer">
+<a href="https://zerc20.gitbook.io/zerc20/for-users/fees-and-rewards" target="_blank" rel="noopener">原文（英語）↗&nbsp;</a>
+</div>
+</aside>
+
+<main class="main">
+<div class="content">
+<h1>手数料とリワード</h1>
+<p class="page-description">このページでは、zERC20のラップ/アンラップ手数料とリワードの仕組みを説明します。</p>
+
+<h2>概要</h2>
+<p>zERC20はサポートされている全チェーンの流動性バランスを維持するために動的な手数料システムを使用しています。チェーンの流動性がターゲットレベルから逸脱すると、リバランスを促すインセンティブが適用されます:
+</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>流動性がターゲット未満</th>
+<th>流動性がターゲット以上</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ラップ（デポジット）</strong></td>
+<td><span class="badge badge-green">リワードを獲得</span></td>
+<td>リワードなし</td>
+</tr>
+<tr>
+<td><strong>アンラップ（引き出し）</strong></td>
+<td><span class="badge badge-red">手数料を支払い</span></td>
+<td>手数料なし</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h2>手数料とリワードが存在する理由</h2>
+<p>各チェーンはzERC20の供給を裏付ける原資産トークン（USDC、ETHなど）のプールを保持しています。流動性が不均等に分散した場合—例えば、ほとんどのUSDCがEthereumに集中し、Arbitrumが不足する—Arbitrumのユーザーはアンラップが困難になる可能性があります。
+</p>
+<p>手数料/リワードシステムはこの問題を以下のように解決します:</p>
+<ul>
+<li><strong>低流動性チェーンへのデポジットにリワード</strong>を提供（必要な場所への流動性追加を促進）</li>
+<li><strong>低流動性チェーンからのアンラップに手数料</strong>を課金（貴重な流動性の流出を抑制）</li>
+</ul>
+
+<h2>手数料の計算方法</h2>
+<p>手数料とリワードは2つのパラメータに基づく線形インセンティブカーブで計算されます:</p>
+<ul>
+<li><strong>ターゲット流動性 (T):</strong> チェーンの理想的な流動性レベル</li>
+<li><strong>インセンティブ強度 (k):</strong> リバランスをどの程度強くインセンティブ付けるか</li>
+</ul>
+
+<h3>現在の手数料設定</h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>トークン</th>
+<th>インセンティブ強度 (k)</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>zUSDC</td>
+<td>10%</td>
+<td>手数料/リワードは全サポートチェーンに適用</td>
+</tr>
+<tr>
+<td>zETH</td>
+<td>10%</td>
+<td>手数料/リワードは全サポートチェーンに適用</td>
+</tr>
+<tr>
+<td>zBNB</td>
+<td>—</td>
+<td>手数料/リワードなし（BNB Chainのみでラップ/アンラップ）</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout callout-info">
+<div class="callout-title">ℹ️ zBNBについて</div>
+<p>zBNBはOFTトークンとして複数チェーン（BNB Chain、Ethereum、Arbitrum、Base）間で送金できます。ただし、ラップ/アンラップ（BNBとzBNBの変換）はBNB
+Chainでのみ可能です。原資産のクロスチェーン流動性バランシングがないため、手数料/リワードは適用されません。</p>
+</div>
+<p>ターゲット流動性 (T) はバックグラウンドサービスにより自動的に計算されます:</p>
+<pre><code>Target = 全チェーンの合計流動性 / チェーン数</code></pre>
+
+<h3>計算式</h3>
+<p>手数料/リワードのレートは流動性がターゲットを下回るほど増加します:</p>
+<pre><code>流動性 L &lt; ターゲット T の場合:
+レート(x) = k × (1 - x/T)
+
+流動性 L ≥ ターゲット T の場合:
+レート = 0（手数料/リワードなし）</code></pre>
+<p>実際の手数料またはリワードは、トランザクションの開始時と終了時の流動性レベル間のカーブの積分（曲線下の面積）です。</p>
+
+<h3>計算例</h3>
+<p>以下の条件のチェーンを想定:</p>
+<ul>
+<li>現在の流動性: 50,000 USDC</li>
+<li>ターゲット流動性: 100,000 USDC</li>
+<li>インセンティブ強度: 10%</li>
+</ul>
+<div class="card-grid">
+<div class="card">
+<div class="card-title">1,000 USDCをラップ</div>
+<div class="card-text">49.5 USDC (4.95%) のリワードを獲得。流動性不足のチェーンに流動性を追加するため。</div>
+</div>
+<div class="card">
+<div class="card-title">1,000 USDCをアンラップ</div>
+<div class="card-text">50.5 USDC (5.05%) の手数料を支払い。流動性がターゲットを下回っているため。</div>
+</div>
+</div>
+
+<h2>手数料の蓄積</h2>
+<p>アンラップから徴収された手数料はサープラスプールに蓄積されます。このサープラスは将来のラップに対するリワードの支払いに使用されます。サープラスが枯渇すると、ラップリワードは相応に減額されます。</p>
+
+<h2>手数料を削減するクロスチェーンアンラップ</h2>
+<p>チェーンの流動性が低くアンラップ手数料が高い場合、手数料が低い別のチェーンの流動性にアクセスするためにクロスチェーンアンラップを使用できます。</p>
+
+<h3>仕組み</h3>
+<ol class="steps">
+<li>チェーンA（zERC20を保持しているチェーン）でアンラップを開始</li>
+<li>zERC20がチェーンB（流動性が高いチェーン）にブリッジ</li>
+<li>チェーンBで低い手数料でアンラップが実行</li>
+<li>原資産トークンがチェーンAにブリッジバック</li>
+</ol>
+<p>このプロセス全体はLayerZeroとStargateを使用して1回のトランザクションで行われます。</p>
+
+<h3>クロスチェーンアンラップを使用するタイミング</h3>
+<ul>
+<li>現在のチェーンのアンラップ手数料が高い場合</li>
+<li>別のチェーンにより多くの流動性がある（手数料が低い）場合</li>
+<li>ブリッジコストが手数料の削減額より少ない場合</li>
+</ul>
+<p>フロントエンドには手数料見積もり付きの両方のオプションが表示されるため、確認前に比較できます。</p>
+
+<h2>現在の手数料を確認</h2>
+<p>フロントエンドで:</p>
+<ol class="steps">
+<li>Wrap / Unwrapモーダルを開く</li>
+<li>UNWRAPタブを選択</li>
+<li>金額を入力</li>
+</ol>
+<p>インターフェースに表示される情報:</p>
+<ul>
+<li><strong>同一チェーン:</strong> 現在のチェーンでのアンラップ手数料</li>
+<li><strong>別チェーン:</strong> クロスチェーンアンラップオプションの手数料</li>
+</ul>
+<p>最もコスト効率の良いオプションを選択するために比較してください。</p>
+
+<h2>関連</h2>
+<ul>
+<li><a href="getting-started.html">フロントエンドの使い方</a> — 基本的なラップ/アンラップ手順</li>
+<li><a href="../for-developers/specs.html">技術仕様</a> — 手数料カーブの技術的詳細</li>
+</ul>
+
+<div class="page-nav">
+<a href="using-cli.html" class="prev">
+<span class="nav-label">← 前へ</span>
+<span class="nav-title">CLIの使い方</span>
+</a>
+<a href="faq.html" class="next">
+<span class="nav-label">次へ →</span>
+<span class="nav-title">よくある質問</span>
+</a>
+</div>
+</div>
+</main>
+</div>
+
+<script>
+function toggleSidebar() {
+document.getElementById('sidebar').classList.toggle('open');
+document.getElementById('overlay').classList.toggle('open');
+}
+</script>
+</body>
+
+</html>
