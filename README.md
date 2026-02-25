@@ -1,7 +1,5 @@
 # 📚 zerc20-unofficial-docs-jp
 ↪︎ 📃 zERC20 公式ドキュメントの日本語訳（ 非公式 ） ／ Unofficial Japanese translation of zERC20 docs  
-↓ 
-↓   
 ↪︎ 💭 AIの普及で全自動かつ誰もが簡単に言葉の壁を超えるであろうその日まで、短期間だとは思いますが誰かの役にたてば幸いです
 
 ---  
@@ -14,6 +12,11 @@
 
 
 ---  
+  
+🌏 Live Site: https://priv-zk-calico-docs-zerc20.oooawe.jp/
+  
+---  
+
 
 
 ## 📅 今後の予定
