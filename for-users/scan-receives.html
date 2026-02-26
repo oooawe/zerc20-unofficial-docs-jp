@@ -1,31 +1,28 @@
 <!DOCTYPE html>
-
-<!--
+<!-- *
 © 2026 zerc20.io
 Original content & materials: zerc20.io (all rights reserved by respective owner)
 This page is an unofficial Japanese translation / adaptation by oawe-lab.
 Source/Reference: https://zerc20.io
--->
-
+* -->
 <html lang="ja">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>受信スキャン | zERC20 ドキュメント</title>
 <meta name="description" content="zERC20でプライベート送金をスキャンして受信する方法">
 <link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
-<link rel="stylesheet" href="/styles.css">
+<script type="module" src="/pagefind/pagefind-ui.js"></script>
+  <script type="module" crossorigin src="/assets/pagefind-search-ui-1r8Wckix.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/pagefind-search-ui-x8g4lc-1.css">
 </head>
-
 <body>
 <button class="menu-toggle" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
 <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
-
 <div class="layout">
 <aside class="sidebar" id="sidebar">
 <div class="sidebar-header">
-<div class="sidebar-logo"><img src="/assets/z.svg" width="77%" height="auto" alt="zERC20"></div>
+<div class="sidebar-logo"><img src="/assets/z-DxUL8dXC.svg" width="77%" height="auto" alt="zERC20"></div>
 <div class="sidebar-top">
 <a href="/index.html">
 <div class="sidebar-title">zERC20</div>
@@ -68,19 +65,19 @@ Source/Reference: https://zerc20.io
 <a href="https://zerc20.gitbook.io/zerc20/for-users/getting-started/scan-receives" target="_blank" rel="noopener">原文（英語）↗&nbsp;</a>
 </div>
 </aside>
-
-<main class="main">
+<main class="main" data-pagefind-body>
 <div class="content">
+<div class="pagefind-sticky-host">
+<div class="pagefind-wrap" id="search"></div>
+</div>
 <h1>受信スキャン</h1>
 <p class="page-description">このガイドでは、zERC20 Webアプリケーションを使用してプライベート送金をスキャンし受信する方法を説明します。</p>
-
 <h2>Private Receiveにアクセス</h2>
 <ol class="steps">
 <li><a href="https://app.zerc20.io/" target="_blank" rel="noopener">フロントエンド ↗&nbsp;</a>にアクセス</li>
 <li>ウォレットを接続</li>
 <li>「Private Receive」タブをクリック</li>
 </ol>
-
 <h2>着金トランスファーのスキャン</h2>
 <p>着金したプライベート送金を確認するには:</p>
 <ol class="steps">
@@ -94,11 +91,9 @@ Source/Reference: https://zerc20.io
 <li>あなたのウォレット宛のアナウンスメントを復号</li>
 <li>秘密鍵や支出能力は公開されません</li>
 </ul>
-
 <h2>受信した送金の表示</h2>
 <p>スキャン後、タイムスタンプごとにグループ化された着金リストが表示されます。</p>
 <p>アナウンスメントの「+」ボタンをクリックすると詳細が展開されます。</p>
-
 <h2>アナウンスメント詳細</h2>
 <p>各アナウンスメントは以下のステータスフローを経ます:</p>
 <div class="table-wrapper">
@@ -133,7 +128,6 @@ Source/Reference: https://zerc20.io
 <li><strong>ソース:</strong> 送信元のチェーンと送信者アドレス</li>
 <li><strong>バーンアドレス:</strong> 送金に使用されたバーンアドレス</li>
 </ul>
-
 <h2>資金の引き出し</h2>
 <p>送金がREADYステータス（「ARRIVED」と表示）に達したら:</p>
 <ol class="steps">
@@ -145,9 +139,7 @@ Source/Reference: https://zerc20.io
 <li>完了すると、ステータスがREDEEMEDに変わり、ボタンに「Already Redeemed」と表示されます</li>
 </ol>
 <p>資金は接続中のウォレットアドレスに送金されます。</p>
-
 <h2>トラブルシューティング</h2>
-
 <h3>アナウンスメントが見つからない場合</h3>
 <p>スキャンで結果が表示されない場合:</p>
 <ul>
@@ -155,7 +147,6 @@ Source/Reference: https://zerc20.io
 <li>送金がオンチェーンで確認されるまで待つ（数分かかることがあります）</li>
 <li>送信者が正しい受信者アドレスを使用したか確認</li>
 </ul>
-
 <h2>次のステップ</h2>
 <div class="card-grid">
 <a href="private-transfer.html" class="card" style="text-decoration:none;">
@@ -171,7 +162,6 @@ Source/Reference: https://zerc20.io
 <div class="card-text">一般的な質問とトラブルシューティング</div>
 </a>
 </div>
-
 <div class="page-nav">
 <a href="private-transfer.html" class="prev">
 <span class="nav-label">← 前へ</span>
@@ -185,7 +175,6 @@ Source/Reference: https://zerc20.io
 </div>
 </main>
 </div>
-
 <script>
 function toggleSidebar() {
 document.getElementById('sidebar').classList.toggle('open');
@@ -193,5 +182,4 @@ document.getElementById('overlay').classList.toggle('open');
 }
 </script>
 </body>
-
 </html>

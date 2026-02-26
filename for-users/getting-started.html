@@ -1,31 +1,28 @@
 <!DOCTYPE html>
-
-<!--
+<!-- *
 © 2026 zerc20.io
 Original content & materials: zerc20.io (all rights reserved by respective owner)
 This page is an unofficial Japanese translation / adaptation by oawe-lab.
 Source/Reference: https://zerc20.io
--->
-
+* -->
 <html lang="ja">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>フロントエンドの使い方 | zERC20 ドキュメント</title>
 <meta name="description" content="zERC20 Webアプリケーションの使い方ガイド">
 <link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
-<link rel="stylesheet" href="/styles.css">
+<script type="module" src="/pagefind/pagefind-ui.js"></script>
+  <script type="module" crossorigin src="/assets/pagefind-search-ui-1r8Wckix.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/pagefind-search-ui-x8g4lc-1.css">
 </head>
-
 <body>
 <button class="menu-toggle" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
 <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
-
 <div class="layout">
 <aside class="sidebar" id="sidebar">
 <div class="sidebar-header">
-<div class="sidebar-logo"><img src="/assets/z.svg" width="77%" height="auto" alt="zERC20"></div>
+<div class="sidebar-logo"><img src="/assets/z-DxUL8dXC.svg" width="77%" height="auto" alt="zERC20"></div>
 <div class="sidebar-top">
 <a href="/index.html">
 <div class="sidebar-title">zERC20</div>
@@ -68,19 +65,19 @@ Source/Reference: https://zerc20.io
 <a href="https://zerc20.gitbook.io/zerc20/for-users/getting-started" target="_blank" rel="noopener">原文（英語）↗&nbsp;</a>
 </div>
 </aside>
-
-<main class="main">
+<main class="main" data-pagefind-body>
 <div class="content">
+<div class="pagefind-sticky-host">
+<div class="pagefind-wrap" id="search"></div>
+</div>
 <h1>フロントエンドの使い方</h1>
 <p class="page-description">このガイドでは、zERC20 Webアプリケーションの使い方を説明します。</p>
-
 <h2>ステップ1: フロントエンドにアクセス</h2>
 <p><a href="https://app.zerc20.io/" target="_blank" rel="noopener">zERC20フロントエンド ↗&nbsp;</a>にアクセスします。</p>
 <div class="callout callout-info">
 <div class="callout-title">テスト用</div>
 <p>テストトークンでの動作確認には<a href="https://v2.testnet.app.zerc20.io/" target="_blank" rel="noopener">テストネットフロントエンド ↗&nbsp;</a>をご利用ください。</p>
 </div>
-
 <h2>ステップ2: ウォレットを接続</h2>
 <ol class="steps">
 <li>右上の「Connect Wallet」をクリック</li>
@@ -88,13 +85,11 @@ Source/Reference: https://zerc20.io
 <li>ウォレットで接続リクエストを承認</li>
 </ol>
 <p>接続が完了すると、ダッシュボードにウォレットアドレスとトークン残高が表示されます。</p>
-
 <h2>ステップ3: zERC20トークンを取得</h2>
 <p>
 zERC20トークンは原資産と1:1で裏付けられたERC-20ラッパートークンです。プライベート送金を可能にしながら、ERC-20標準との完全な互換性を維持しています。
 </p>
 <p>ページ上部のドロップダウンからトークンの種類とチェーンを選択できます。</p>
-
 <h3>オプションA: トークンをラップ</h3>
 <p>ラッピングにより、標準トークン（USDC、ETHなど）を1:1の比率でzERC20トークンに変換します。</p>
 <ol class="steps">
@@ -112,11 +107,9 @@ zERC20トークンは原資産と1:1で裏付けられたERC-20ラッパート�
 <div class="callout-title">ラップリワード</div>
 <p>チェーンの流動性が低い場合、流動性を追加するリワードとしてボーナストークンを受け取ることがあります。詳細は<a href="fees-and-rewards.html">手数料とリワード</a>をご覧ください。</p>
 </div>
-
 <h3>オプションB: DEXで購入</h3>
 <p>Uniswapなどの分散型取引所でzERC20を直接購入できます。</p>
 <p>各チェーンのトークンアドレスは<a href="../reference/addresses.html">コントラクトアドレス</a>をご確認ください。</p>
-
 <h3>zERC20トークンのアンラップ</h3>
 <p>zERC20トークンを原資産に戻す方法:</p>
 <ol class="steps">
@@ -126,10 +119,8 @@ zERC20トークンは原資産と1:1で裏付けられたERC-20ラッパート�
 <li>スリッページ許容度を設定（0.5%、3%、10%、またはカスタム）</li>
 <li>「UNWRAP ON」ドロップダウンから送金先チェーンを選択</li>
 </ol>
-
 <h4>同一チェーンでのアンラップ</h4>
 <p>現在のチェーン（「Chain (Current)」と表示）を選択すると、同じチェーン上で原資産トークンを受け取ります。</p>
-
 <h4>クロスチェーンアンラップ</h4>
 <p>「UNWRAP ON」ドロップダウンから別のチェーンを選択すると、他のチェーンの流動性にアクセスできます。プロセスは以下の通りです:</p>
 <ol class="steps">
@@ -140,23 +131,19 @@ zERC20トークンは原資産と1:1で裏付けられたERC-20ラッパート�
 <p>例: Arbitrum上にいて「Base」をアンラップ先に選択した場合、フローは Arbitrum → Base → Arbitrum
 となります。原資産トークンはArbitrum上で受け取りますが、アンラップはBase上で行われます。</p>
 <p>手数料の内訳（アンラップ手数料、ブリッジ手数料、LayerZero手数料）はトランザクション確認前に表示されます。</p>
-
 <div class="callout callout-info">
 <div class="callout-title">💡 手数料最適化</div>
 <p>流動性が低くアンラップ手数料が高いチェーンの場合、クロスチェーンアンラップで手数料が低い別のチェーンの流動性にアクセスできます。フロントエンドに手数料比較が表示されるので、最適なオプションを選択できます。詳細は<a href="fees-and-rewards.html">手数料とリワード</a>をご覧ください。</p>
 </div>
-
 <h2>ステップ4: プライベート送金を行う</h2>
 <p>送金の詳しい手順は<a href="private-transfer.html">プライベート送金ガイド</a>をご覧ください。</p>
 <p>受信の手順は<a href="scan-receives.html">受信スキャンガイド</a>をご覧ください。</p>
-
 <h2>重要な注意事項</h2>
 <ul>
 <li><strong>クロスチェーン対応:</strong> LayerZeroメッセージングを使用して、あるチェーンで送金し、別のチェーンで引き出すことができます</li>
 <li><strong>処理時間:</strong> プライベート送金はメインネットで通常30分〜1時間かかります</li>
 <li><strong>テストネットの制限:</strong> テストネットではLayerZeroの不安定性により、処理時間が長くなることがあります</li>
 </ul>
-
 <h2>次のステップ</h2>
 <div class="card-grid">
 <a href="private-transfer.html" class="card" style="text-decoration:none;">
@@ -168,7 +155,6 @@ zERC20トークンは原資産と1:1で裏付けられたERC-20ラッパート�
 <div class="card-text">一般的な質問とトラブルシューティング</div>
 </a>
 </div>
-
 <div class="page-nav">
 <a href="../overview/how-it-works.html" class="prev">
 <span class="nav-label">← 前へ</span>
@@ -182,7 +168,6 @@ zERC20トークンは原資産と1:1で裏付けられたERC-20ラッパート�
 </div>
 </main>
 </div>
-
 <script>
 function toggleSidebar() {
 document.getElementById('sidebar').classList.toggle('open');
@@ -190,5 +175,4 @@ document.getElementById('overlay').classList.toggle('open');
 }
 </script>
 </body>
-
 </html>

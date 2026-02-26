@@ -1,31 +1,28 @@
 <!DOCTYPE html>
-
-<!--
+<!-- *
 © 2026 zerc20.io
 Original content & materials: zerc20.io (all rights reserved by respective owner)
 This page is an unofficial Japanese translation / adaptation by oawe-lab.
 Source/Reference: https://zerc20.io
--->
-
+* -->
 <html lang="ja">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>プライベート送金 | zERC20 ドキュメント</title>
 <meta name="description" content="zERC20 Webアプリケーションでプライベート送金を行う方法">
 <link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
-<link rel="stylesheet" href="/styles.css">
+<script type="module" src="/pagefind/pagefind-ui.js"></script>
+  <script type="module" crossorigin src="/assets/pagefind-search-ui-1r8Wckix.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/pagefind-search-ui-x8g4lc-1.css">
 </head>
-
 <body>
 <button class="menu-toggle" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
 <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
-
 <div class="layout">
 <aside class="sidebar" id="sidebar">
 <div class="sidebar-header">
-<div class="sidebar-logo"><img src="/assets/z.svg" width="77%" height="auto" alt="zERC20"></div>
+<div class="sidebar-logo"><img src="/assets/z-DxUL8dXC.svg" width="77%" height="auto" alt="zERC20"></div>
 <div class="sidebar-top">
 <a href="/index.html">
 <div class="sidebar-title">zERC20</div>
@@ -68,14 +65,14 @@ Source/Reference: https://zerc20.io
 <a href="https://zerc20.gitbook.io/zerc20/for-users/getting-started/private-transfer" target="_blank" rel="noopener">原文（英語）↗&nbsp;</a>
 </div>
 </aside>
-
-<main class="main">
+<main class="main" data-pagefind-body>
 <div class="content">
+<div class="pagefind-sticky-host">
+<div class="pagefind-wrap" id="search"></div>
+</div>
 <h1>プライベート送金</h1>
 <p class="page-description">このガイドでは、zERC20 Webアプリケーションを使用してプライベート送金の送受信方法を説明します。</p>
-
 <h2>プライベート支払いの送信</h2>
-
 <h3>既知のアドレスへの送金</h3>
 <p>受信者のアドレスを知っている場合:</p>
 <ol class="steps">
@@ -92,7 +89,6 @@ Source/Reference: https://zerc20.io
 <li><strong>Store（保存）:</strong> 暗号化されたアナウンスメントが、受信者が後でスキャンできるようにオンチェーンまたはオフチェーンに保存</li>
 <li><strong>Transfer（送金）:</strong> トークンがバーンアドレスに送信</li>
 </ol>
-
 <h3>バーンアドレスへの送金</h3>
 <p>誰かからバーンアドレスを提供された場合:</p>
 <ol class="steps">
@@ -101,7 +97,6 @@ Source/Reference: https://zerc20.io
 <li>完了 — 受信者が引き出しを処理します</li>
 </ol>
 <p>サポートされている任意のチェーンから送金できます。この方法は、受信者が送信者からもプライバシーを維持したい場合に便利です。</p>
-
 <h2>他者用のバーンアドレスを作成</h2>
 <p>「Pay with mobile」機能を使用すると、他者が支払い可能なバーンアドレスを作成できます。これは以下の場合に便利です:</p>
 <ul>
@@ -121,10 +116,8 @@ Source/Reference: https://zerc20.io
 <li>支払いが必要な人にQRコードを共有</li>
 </ol>
 <p>支払い者はQRコードをスキャンし、表示されたバーンアドレスに正確な金額を送金するだけです。オンチェーンで支払いが確認されたら、受信者は資金を引き出すことができます。</p>
-
 <h2>受信と引き出し</h2>
 <p>プライベート送金の受信と引き出しの詳しい手順は<a href="scan-receives.html">受信スキャン</a>をご覧ください。</p>
-
 <div class="page-nav">
 <a href="getting-started.html" class="prev">
 <span class="nav-label">← 前へ</span>
@@ -138,7 +131,6 @@ Source/Reference: https://zerc20.io
 </div>
 </main>
 </div>
-
 <script>
 function toggleSidebar() {
 document.getElementById('sidebar').classList.toggle('open');
@@ -146,5 +138,4 @@ document.getElementById('overlay').classList.toggle('open');
 }
 </script>
 </body>
-
 </html>

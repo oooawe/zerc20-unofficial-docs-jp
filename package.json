@@ -1,17 +1,21 @@
 {
-	"name": "zerc20-unofficial-docs-jp",
-	"version": "0.0.2",
-	"description": "Unofficial Japanese translation of zERC20 docs",
-	"private": true,
-	"scripts": {
-		"dev": "vite",
-		"build": "vite build",
-		"preview": "vite preview --host"
-	},
-	"keywords": [],
-	"author": "oawe-lab",
-	"license": "MIT",
-	"devDependencies": {
-		"vite": "^7.3.1"
-	}
+"name":"zerc20-unofficial-docs-jp",
+"version":"0.0.3",
+"description":"Unofficial Japanese translation of zERC20 docs",
+"private":true,
+"scripts":{
+"dev":"vite",
+"build":"vite build",
+"pagefind":"pagefind --site dist",
+"build:search":"vite build && npx rimraf dist/pagefind && pagefind --site dist",
+"preview":"vite preview --host"
+},
+"keywords":[],
+"author":"oawe-lab",
+"license":"MIT",
+"devDependencies":{
+"pagefind":"^1.4.0",
+"rimraf":"^6.0.0",
+"vite":"^7.3.1"
+}
 }

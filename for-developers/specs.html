@@ -1,31 +1,28 @@
 <!DOCTYPE html>
-
-<!--
+<!-- *
 © 2026 zerc20.io
 Original content & materials: zerc20.io (all rights reserved by respective owner)
 This page is an unofficial Japanese translation / adaptation by oawe-lab.
 Source/Reference: https://zerc20.io
--->
-
+* -->
 <html lang="ja">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>技術仕様 | zERC20 ドキュメント</title>
 <meta name="description" content="zERC20の技術仕様、値制約、証明タイプ、主要コントラクト">
 <link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
-<link rel="stylesheet" href="/styles.css">
+<script type="module" src="/pagefind/pagefind-ui.js"></script>
+  <script type="module" crossorigin src="/assets/pagefind-search-ui-1r8Wckix.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/pagefind-search-ui-x8g4lc-1.css">
 </head>
-
 <body>
 <button class="menu-toggle" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
 <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
-
 <div class="layout">
 <aside class="sidebar" id="sidebar">
 <div class="sidebar-header">
-<div class="sidebar-logo"><img src="/assets/z.svg" width="77%" height="auto" alt="zERC20"></div>
+<div class="sidebar-logo"><img src="/assets/z-DxUL8dXC.svg" width="77%" height="auto" alt="zERC20"></div>
 <div class="sidebar-top">
 <a href="/index.html">
 <div class="sidebar-title">zERC20</div>
@@ -49,16 +46,15 @@ Source/Reference: https://zerc20.io
 </nav>
 <div class="sidebar-footer"><a href="https://zerc20.gitbook.io/zerc20/for-developers/specs" target="_blank" rel="noopener">原文（英語）↗&nbsp;</a></div>
 </aside>
-
-<main class="main">
+<main class="main" data-pagefind-body>
 <div class="content">
+<div class="pagefind-sticky-host">
+<div class="pagefind-wrap" id="search"></div>
+</div>
 <h1>技術仕様</h1>
 <p class="page-description">zERC20プロトコルの技術仕様、値制約、証明タイプ、主要コントラクトの概要です。</p>
-
 <h2>仕様</h2>
-
 <h2>クイックリファレンス</h2>
-
 <h3>値制約</h3>
 <div class="table-wrapper">
 <table>
@@ -93,7 +89,6 @@ Source/Reference: https://zerc20.io
 </tbody>
 </table>
 </div>
-
 <h3>証明タイプ</h3>
 <div class="table-wrapper">
 <table>
@@ -123,7 +118,6 @@ Source/Reference: https://zerc20.io
 </tbody>
 </table>
 </div>
-
 <h3>主要コントラクト</h3>
 <div class="table-wrapper">
 <table>
@@ -157,7 +151,6 @@ Source/Reference: https://zerc20.io
 </tbody>
 </table>
 </div>
-
 <div class="page-nav">
 <a href="proof-of-innocence.html" class="prev">
 <span class="nav-label">← 前へ</span>
@@ -171,10 +164,8 @@ Source/Reference: https://zerc20.io
 </div>
 </main>
 </div>
-
 <script>
 function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('open'); }
 </script>
 </body>
-
 </html>

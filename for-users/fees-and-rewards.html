@@ -1,31 +1,28 @@
 <!DOCTYPE html>
-
-<!--
+<!-- *
 © 2026 zerc20.io
 Original content & materials: zerc20.io (all rights reserved by respective owner)
 This page is an unofficial Japanese translation / adaptation by oawe-lab.
 Source/Reference: https://zerc20.io
--->
-
+* -->
 <html lang="ja">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>手数料とリワード | zERC20 ドキュメント</title>
 <meta name="description" content="zERC20のラップ/アンラップ手数料とリワードの仕組み">
 <link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
-<link rel="stylesheet" href="/styles.css">
+<script type="module" src="/pagefind/pagefind-ui.js"></script>
+  <script type="module" crossorigin src="/assets/pagefind-search-ui-1r8Wckix.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/pagefind-search-ui-x8g4lc-1.css">
 </head>
-
 <body>
 <button class="menu-toggle" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
 <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
-
 <div class="layout">
 <aside class="sidebar" id="sidebar">
 <div class="sidebar-header">
-<div class="sidebar-logo"><img src="/assets/z.svg" width="77%" height="auto" alt="zERC20"></div>
+<div class="sidebar-logo"><img src="/assets/z-DxUL8dXC.svg" width="77%" height="auto" alt="zERC20"></div>
 <div class="sidebar-top">
 <a href="/index.html">
 <div class="sidebar-title">zERC20</div>
@@ -68,14 +65,15 @@ Source/Reference: https://zerc20.io
 <a href="https://zerc20.gitbook.io/zerc20/for-users/fees-and-rewards" target="_blank" rel="noopener">原文（英語）↗&nbsp;</a>
 </div>
 </aside>
-
-<main class="main">
+<main class="main" data-pagefind-body>
 <div class="content">
+<div class="pagefind-sticky-host">
+<div class="pagefind-wrap" id="search"></div>
+</div>
 <h1>手数料とリワード</h1>
 <p class="page-description">このページでは、zERC20のラップ/アンラップ手数料とリワードの仕組みを説明します。</p>
-
 <h2>概要</h2>
-<p>zERC20はサポートされている全チェーンの流動性バランスを維持するために動的な手数料システムを使用しています。チェーンの流動性がターゲットレベルから逸脱すると、リバランスを促すインセンティブが適用されます:
+<p>zERC20は動的手数料システムを活用し、対応する全チェーン間で流動性のバランスを維持します。あるチェーンの流動性がターゲットレベルから乖離した場合、システムはリバランスを促すインセンティブを適用します：
 </p>
 <div class="table-wrapper">
 <table>
@@ -100,23 +98,20 @@ Source/Reference: https://zerc20.io
 </tbody>
 </table>
 </div>
-
 <h2>手数料とリワードが存在する理由</h2>
 <p>各チェーンはzERC20の供給を裏付ける原資産トークン（USDC、ETHなど）のプールを保持しています。流動性が不均等に分散した場合—例えば、ほとんどのUSDCがEthereumに集中し、Arbitrumが不足する—Arbitrumのユーザーはアンラップが困難になる可能性があります。
 </p>
 <p>手数料/リワードシステムはこの問題を以下のように解決します:</p>
 <ul>
 <li><strong>低流動性チェーンへのデポジットにリワード</strong>を提供（必要な場所への流動性追加を促進）</li>
-<li><strong>低流動性チェーンからのアンラップに手数料</strong>を課金（貴重な流動性の流出を抑制）</li>
+<li><strong>低流動性チェーンからの引き出しに手数料</strong>を課金（限られた流動性の流出を抑制）</li>
 </ul>
-
 <h2>手数料の計算方法</h2>
 <p>手数料とリワードは2つのパラメータに基づく線形インセンティブカーブで計算されます:</p>
 <ul>
-<li><strong>ターゲット流動性 (T):</strong> チェーンの理想的な流動性レベル</li>
-<li><strong>インセンティブ強度 (k):</strong> リバランスをどの程度強くインセンティブ付けるか</li>
+<li>ターゲット流動性 (T): チェーンの理想的な流動性レベル</li>
+<li>インセンティブ強度 (k): リバランスをどの程度強くインセンティブを与えるか</li>
 </ul>
-
 <h3>現在の手数料設定</h3>
 <div class="table-wrapper">
 <table>
@@ -152,17 +147,18 @@ Source/Reference: https://zerc20.io
 Chainでのみ可能です。原資産のクロスチェーン流動性バランシングがないため、手数料/リワードは適用されません。</p>
 </div>
 <p>ターゲット流動性 (T) はバックグラウンドサービスにより自動的に計算されます:</p>
-<pre><code>Target = 全チェーンの合計流動性 / チェーン数</code></pre>
-
+<pre><code>Target = 全チェーンの合計流動性 / チェーン数 × ratio</code></pre>
+<p>デフォルトのratioは80%で、ターゲットは均等配分額の80%に設定されます。これにより、手数料やリワードが発生することなく、ある程度の流動性変動が許容されます。チェーン間で流動性が移動すると、ターゲットは自動的に調整されます。</p>
+<p></p>
 <h3>計算式</h3>
-<p>手数料/リワードのレートは流動性がターゲットを下回るほど増加します:</p>
+<p>手数料／リワードのレートは、流動性がターゲットを下回るほど増加します:</p>
 <pre><code>流動性 L &lt; ターゲット T の場合:
-レート(x) = k × (1 - x/T)
-
+レート（Rate at point X） = k × (1 - x/T)
 流動性 L ≥ ターゲット T の場合:
-レート = 0（手数料/リワードなし）</code></pre>
-<p>実際の手数料またはリワードは、トランザクションの開始時と終了時の流動性レベル間のカーブの積分（曲線下の面積）です。</p>
-
+レート = 0（手数料/リワードなし）
+</code></pre>
+<p>実際の手数料またはリワードは、トランザクションの開始時と終了時の流動性レベル間の積分（積分 = 曲線下の面積値）です。</p>
+<p></p>
 <h3>計算例</h3>
 <p>以下の条件のチェーンを想定:</p>
 <ul>
@@ -173,20 +169,17 @@ Chainでのみ可能です。原資産のクロスチェーン流動性バラン
 <div class="card-grid">
 <div class="card">
 <div class="card-title">1,000 USDCをラップ</div>
-<div class="card-text">49.5 USDC (4.95%) のリワードを獲得。流動性不足のチェーンに流動性を追加するため。</div>
+<div class="card-text">流動性が不足しているチェーンに流動性を追加するため、49.5 USDC（4.95%）のリワードを獲得できます。</div>
 </div>
 <div class="card">
 <div class="card-title">1,000 USDCをアンラップ</div>
-<div class="card-text">50.5 USDC (5.05%) の手数料を支払い。流動性がターゲットを下回っているため。</div>
+<div class="card-text">流動性がターゲットを下回っているため、50.5 USDC（5.05%）の手数料が発生します。</div>
 </div>
 </div>
-
 <h2>手数料の蓄積</h2>
 <p>アンラップから徴収された手数料はサープラスプールに蓄積されます。このサープラスは将来のラップに対するリワードの支払いに使用されます。サープラスが枯渇すると、ラップリワードは相応に減額されます。</p>
-
 <h2>手数料を削減するクロスチェーンアンラップ</h2>
 <p>チェーンの流動性が低くアンラップ手数料が高い場合、手数料が低い別のチェーンの流動性にアクセスするためにクロスチェーンアンラップを使用できます。</p>
-
 <h3>仕組み</h3>
 <ol class="steps">
 <li>チェーンA（zERC20を保持しているチェーン）でアンラップを開始</li>
@@ -195,7 +188,6 @@ Chainでのみ可能です。原資産のクロスチェーン流動性バラン
 <li>原資産トークンがチェーンAにブリッジバック</li>
 </ol>
 <p>このプロセス全体はLayerZeroとStargateを使用して1回のトランザクションで行われます。</p>
-
 <h3>クロスチェーンアンラップを使用するタイミング</h3>
 <ul>
 <li>現在のチェーンのアンラップ手数料が高い場合</li>
@@ -203,7 +195,6 @@ Chainでのみ可能です。原資産のクロスチェーン流動性バラン
 <li>ブリッジコストが手数料の削減額より少ない場合</li>
 </ul>
 <p>フロントエンドには手数料見積もり付きの両方のオプションが表示されるため、確認前に比較できます。</p>
-
 <h2>現在の手数料を確認</h2>
 <p>フロントエンドで:</p>
 <ol class="steps">
@@ -217,13 +208,11 @@ Chainでのみ可能です。原資産のクロスチェーン流動性バラン
 <li><strong>別チェーン:</strong> クロスチェーンアンラップオプションの手数料</li>
 </ul>
 <p>最もコスト効率の良いオプションを選択するために比較してください。</p>
-
 <h2>関連</h2>
 <ul>
 <li><a href="getting-started.html">フロントエンドの使い方</a> — 基本的なラップ/アンラップ手順</li>
 <li><a href="../for-developers/specs.html">技術仕様</a> — 手数料カーブの技術的詳細</li>
 </ul>
-
 <div class="page-nav">
 <a href="using-cli.html" class="prev">
 <span class="nav-label">← 前へ</span>
@@ -237,7 +226,6 @@ Chainでのみ可能です。原資産のクロスチェーン流動性バラン
 </div>
 </main>
 </div>
-
 <script>
 function toggleSidebar() {
 document.getElementById('sidebar').classList.toggle('open');
@@ -245,5 +233,4 @@ document.getElementById('overlay').classList.toggle('open');
 }
 </script>
 </body>
-
 </html>

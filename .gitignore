@@ -141,11 +141,9 @@ vite.config.ts.timestamp-*
 # Mac OS
 .DS_Store
 
-# 今回専用（数字から始まるディレクトリ）
+# 今回専用
 [0-9]*/
 public/
-*.png
 *.ai
-*.svg
 *.config.js
 *lock.json

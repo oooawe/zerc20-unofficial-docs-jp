@@ -1,31 +1,28 @@
 <!DOCTYPE html>
-
-<!--
+<!-- *
 © 2026 zerc20.io
 Original content & materials: zerc20.io (all rights reserved by respective owner)
 This page is an unofficial Japanese translation / adaptation by oawe-lab.
 Source/Reference: https://zerc20.io
--->
-
+* -->
 <html lang="ja">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>zERC20の仕組み | zERC20 ドキュメント</title>
 <meta name="description" content="zERC20のプライベート送金メカニズムとプライバシー保証について解説します。">
 <link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
-<link rel="stylesheet" href="/styles.css">
+<script type="module" src="/pagefind/pagefind-ui.js"></script>
+  <script type="module" crossorigin src="/assets/pagefind-search-ui-1r8Wckix.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/pagefind-search-ui-x8g4lc-1.css">
 </head>
-
 <body>
 <button class="menu-toggle" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
 <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
-
 <div class="layout">
 <aside class="sidebar" id="sidebar">
 <div class="sidebar-header">
-<div class="sidebar-logo"><img src="/assets/z.svg" width="77%" height="auto" alt="zERC20"></div>
+<div class="sidebar-logo"><img src="/assets/z-DxUL8dXC.svg" width="77%" height="auto" alt="zERC20"></div>
 <div class="sidebar-top">
 <a href="/index.html">
 <div class="sidebar-title">zERC20</div>
@@ -68,26 +65,24 @@ Source/Reference: https://zerc20.io
 <a href="https://zerc20.gitbook.io/zerc20/overview/how-it-works" target="_blank" rel="noopener">原文（英語）↗&nbsp;</a>
 </div>
 </aside>
-
-<main class="main">
+<main class="main" data-pagefind-body>
 <div class="content">
+<div class="pagefind-sticky-host">
+<div class="pagefind-wrap" id="search"></div>
+</div>
 <h1>zERC20の仕組み</h1>
 <p class="page-description">
 このページでは、zERC20のプライベート送金メカニズムと、どのようなプライバシー保証が提供されるかを説明します。
 </p>
-
 <h2>プライベート送金フロー</h2>
-
 <h3>ステップ1: バーンアドレスの生成</h3>
 <p>
 送信者または受信者が<strong>バーンアドレス</strong>を生成します。これは対応する秘密鍵が存在しないワンタイムのEthereumアドレスです。このアドレスは受信者の引き出しアドレスとシークレットから暗号学的に導出されます。
 </p>
-
 <h3>ステップ2: バーンアドレスへの送金</h3>
 <p>
 送信者は任意の標準ウォレット（MetaMaskなど）を使用して、zERC20をバーンアドレスに送金します。このアドレスには秘密鍵が存在しないため、トークンは実質的に「バーン」され、誰も移動させることができません。
 </p>
-
 <h3>ステップ3: ゼロ知識証明による引き出し</h3>
 <p>受信者は以下を示すゼロ知識証明を生成します:</p>
 <ul>
@@ -101,20 +96,16 @@ Source/Reference: https://zerc20.io
 <div class="callout-title">💡 テレポート</div>
 <p>この引き出しプロセスを「テレポート」と呼びます。トークンがあるアドレスから消え、追跡不可能なリンクで別のアドレスに再出現するためです。</p>
 </div>
-
 <h2>プライバシーの範囲</h2>
 <p>zERC20のプライバシーモデルを安全に利用するためには、その範囲を理解することが重要です。</p>
-
 <h3>1. 送信者-受信者の紐付け不可能性</h3>
 <p>
 送信者のアドレスと受信者の引き出しアドレスの関係はオンチェーン上に公開されません。これはTornado Cashがデポジットと引き出しの間のリンクを隠すのと同様です。
 </p>
-
 <h3>2. バーンアドレスの可視性</h3>
 <p>
 zERC20をバーンアドレスに送金するトランザクションは公開されています。ただし、観察者はバーンアドレスがどの引き出しアドレスにリンクしているかを判別できません。
 </p>
-
 <h3>3. 誰が何を知っているか</h3>
 <div class="table-wrapper">
 <table>
@@ -148,7 +139,6 @@ zERC20をバーンアドレスに送金するトランザクションは公開�
 <div class="callout-title">ℹ️ 情報</div>
 <p>フロントエンドは現在、送信者生成のバーンアドレスをサポートしています。CLIは両方の方式をサポートしています。</p>
 </div>
-
 <h3>4. 金額のプライバシーに関する考慮事項</h3>
 <p>
 送金額と引き出し額はオンチェーン上で可視です。固有または珍しい金額（例: 123.456789 zUSDC）は、トランザクションの相関付けに使用される可能性があります。
@@ -165,7 +155,6 @@ zERC20をバーンアドレスに送金するトランザクションは公開�
 zUSDCを引き出し、残りは保留にします。</div>
 </div>
 </div>
-
 <h2>クロスチェーン送金</h2>
 <p>zERC20は異なるブロックチェーン間でのプライベート送金をサポートしています:</p>
 <ol class="steps">
@@ -175,7 +164,6 @@ zUSDCを引き出し、残りは保留にします。</div>
 <p>
 クロスチェーンメッセージングはLayerZeroによって処理され、グローバルマークルツリーがすべてのチェーン間で転送ルートを集約します。
 </p>
-
 <h2>技術概要</h2>
 <p>基盤となる暗号技術に興味のある開発者向け:</p>
 <ul>
@@ -185,7 +173,6 @@ zUSDCを引き出し、残りは保留にします。</div>
 <li><strong>ステルスメッセージング:</strong> VetKDを使用したICP Canisterで暗号化されたバーンアドレスの配信を実現</li>
 </ul>
 <p>詳細は<a href="../for-developers/architecture.html">アーキテクチャ概要</a>をご覧ください。</p>
-
 <div class="page-nav">
 <a href="../index.html" class="prev">
 <span class="nav-label">← 前へ</span>
@@ -199,7 +186,6 @@ zUSDCを引き出し、残りは保留にします。</div>
 </div>
 </main>
 </div>
-
 <script>
 function toggleSidebar() {
 document.getElementById('sidebar').classList.toggle('open');
@@ -207,5 +193,4 @@ document.getElementById('overlay').classList.toggle('open');
 }
 </script>
 </body>
-
 </html>

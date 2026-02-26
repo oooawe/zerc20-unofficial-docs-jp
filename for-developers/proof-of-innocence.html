@@ -1,31 +1,28 @@
 <!DOCTYPE html>
-
-<!--
+<!-- *
 © 2026 zerc20.io
 Original content & materials: zerc20.io (all rights reserved by respective owner)
 This page is an unofficial Japanese translation / adaptation by oawe-lab.
 Source/Reference: https://zerc20.io
--->
-
+* -->
 <html lang="ja">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>潔白の証明（計画中） | zERC20 ドキュメント</title>
 <meta name="description" content="zERC20のProof of Innocence機能の概要と設計">
 <link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
-<link rel="stylesheet" href="/styles.css">
+<script type="module" src="/pagefind/pagefind-ui.js"></script>
+  <script type="module" crossorigin src="/assets/pagefind-search-ui-1r8Wckix.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/pagefind-search-ui-x8g4lc-1.css">
 </head>
-
 <body>
 <button class="menu-toggle" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
 <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
-
 <div class="layout">
 <aside class="sidebar" id="sidebar">
 <div class="sidebar-header">
-<div class="sidebar-logo"><img src="/assets/z.svg" width="77%" height="auto" alt="zERC20"></div>
+<div class="sidebar-logo"><img src="/assets/z-DxUL8dXC.svg" width="77%" height="auto" alt="zERC20"></div>
 <div class="sidebar-top">
 <a href="/index.html">
 <div class="sidebar-title">zERC20</div>
@@ -50,28 +47,25 @@ Source/Reference: https://zerc20.io
 <div class="sidebar-footer"><a href="https://zerc20.gitbook.io/zerc20/for-developers/proof-of-innocence"
 target="_blank" rel="noopener">原文（英語）↗&nbsp;</a></div>
 </aside>
-
-<main class="main">
+<main class="main" data-pagefind-body>
 <div class="content">
+<div class="pagefind-sticky-host">
+<div class="pagefind-wrap" id="search"></div>
+</div>
 <h1>潔白の証明（Proof of Innocence）</h1>
 <p class="page-description"><span class="badge badge-yellow">計画中</span> —
 この機能は開発中であり、将来のリリースで利用可能になる予定です。</p>
-
 <h2>概要</h2>
 <p>Proof of Innocence（潔白の証明）により、ユーザーはプライベート送金がブラックリストに載ったアドレスからの資金を含まないことを、送金元を明かすことなく証明できます。</p>
-
 <h2>仕組み</h2>
 <ol class="steps">
 <li>ブラックリストに載った送金の除外ツリーが公開されます</li>
 <li>ユーザーは自分の送金がこの除外ツリーに含まれていないことを証明するゼロ知識証明を生成します</li>
 <li>検証者はこの証明を検証し、ユーザーの送金が「潔白」であることを確認できます</li>
 </ol>
-
 <h2>暗号設計</h2>
-
 <h3>除外ツリー</h3>
 <p>制裁対象またはブラックリストに載ったアドレスに関連するすべての送金はPoseidonマークルツリーに集約されます。このツリーは公開で検証可能です。</p>
-
 <h3>非メンバーシップ証明（Novaステップ）</h3>
 <p>Nova IVC（Incrementally Verifiable Computation）を使用して、ユーザーの送金が除外ツリーに含まれていないことの効率的な証明を生成します。これにより:</p>
 <ul>
@@ -79,38 +73,30 @@ target="_blank" rel="noopener">原文（英語）↗&nbsp;</a></div>
 <li>バッチ処理により複数の送金を効率的に一度に証明</li>
 <li>証明サイズが一定であり、スケーラブル</li>
 </ul>
-
 <h2>CLI使用方法（計画中）</h2>
-
 <h3>潔白の証明を生成</h3>
 <pre><code>zerc20-cli proof-of-innocence generate \
 --exclusion-tree &lt;EXCLUSION_TREE_FILE&gt; \
 --invoice-id &lt;INVOICE_ID&gt; \
 --output &lt;PROOF_OUTPUT_FILE&gt;</code></pre>
-
 <h3>潔白の証明を検証</h3>
 <pre><code>zerc20-cli proof-of-innocence verify \
 --exclusion-tree &lt;EXCLUSION_TREE_FILE&gt; \
 --proof &lt;PROOF_FILE&gt;</code></pre>
-
 <h3>使用例</h3>
 <pre><code># 1. 除外ツリーをダウンロード
 zerc20-cli proof-of-innocence download-tree --output exclusion_tree.json
-
 # 2. 自分のインボイスに対する潔白の証明を生成
 zerc20-cli proof-of-innocence generate \
 --exclusion-tree exclusion_tree.json \
 --invoice-id my-invoice-123 \
 --output my_proof.json
-
 # 3. 証明を検証
 zerc20-cli proof-of-innocence verify \
 --exclusion-tree exclusion_tree.json \
 --proof my_proof.json</code></pre>
-
 <h3>入力ファイル形式</h3>
 <p>除外ツリーファイルはJSON形式で、ブラックリストに載った送金のマークルツリーデータを含みます。証明ファイルもJSON形式で、生成されたゼロ知識証明データを含みます。</p>
-
 <div class="page-nav">
 <a href="circuit-setup.html" class="prev">
 <span class="nav-label">← 前へ</span>
@@ -124,10 +110,8 @@ zerc20-cli proof-of-innocence verify \
 </div>
 </main>
 </div>
-
 <script>
 function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('open'); }
 </script>
 </body>
-
 </html>

@@ -1,31 +1,28 @@
 <!DOCTYPE html>
-
-<!--
+<!-- *
 © 2026 zerc20.io
 Original content & materials: zerc20.io (all rights reserved by respective owner)
 This page is an unofficial Japanese translation / adaptation by oawe-lab.
 Source/Reference: https://zerc20.io
--->
-
+* -->
 <html lang="ja">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>回路セットアップ | zERC20 ドキュメント</title>
 <meta name="description" content="zERC20回路アーティファクトのダウンロードと設定">
 <link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
-<link rel="stylesheet" href="/styles.css">
+<script type="module" src="/pagefind/pagefind-ui.js"></script>
+  <script type="module" crossorigin src="/assets/pagefind-search-ui-1r8Wckix.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/pagefind-search-ui-x8g4lc-1.css">
 </head>
-
 <body>
 <button class="menu-toggle" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
 <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
-
 <div class="layout">
 <aside class="sidebar" id="sidebar">
 <div class="sidebar-header">
-<div class="sidebar-logo"><img src="/assets/z.svg" width="77%" height="auto" alt="zERC20"></div>
+<div class="sidebar-logo"><img src="/assets/z-DxUL8dXC.svg" width="77%" height="auto" alt="zERC20"></div>
 <div class="sidebar-top">
 <a href="/index.html">
 <div class="sidebar-title">zERC20</div>
@@ -50,43 +47,36 @@ Source/Reference: https://zerc20.io
 <div class="sidebar-footer"><a href="https://zerc20.gitbook.io/zerc20/for-developers/circuit-setup"
 target="_blank" rel="noopener">原文（英語）↗&nbsp;</a></div>
 </aside>
-
-<main class="main">
+<main class="main" data-pagefind-body>
 <div class="content">
+<div class="pagefind-sticky-host">
+<div class="pagefind-wrap" id="search"></div>
+</div>
 <h1>回路セットアップ</h1>
 <p class="page-description">ゼロ知識証明の生成に必要な回路アーティファクトのダウンロードと設定方法を説明します。</p>
-
 <h2>回路アーティファクトが必要な理由</h2>
 <p>回路アーティファクトは、引き出し（テレポート）に必要なゼロ知識証明を生成するために不可欠です。これらのアーティファクトには、信頼されたセットアップの結果と証明生成に必要なパラメータが含まれています。
 </p>
-
 <h2>公式マニフェストダイジェスト</h2>
 <p>ダウンロードしたアーティファクトの整合性を検証するために、公式のマニフェストダイジェストが提供されています。</p>
-
 <h2>インストール</h2>
 <pre><code>cargo install --path ../circuit-setup</code></pre>
-
 <h2>設定</h2>
 <p>回路セットアップツールは環境変数で設定できます。デフォルトのアーティファクト保存先ディレクトリは自動的に作成されます。</p>
-
 <h2>コマンド</h2>
-
 <h3>ダウンロード</h3>
 <p>回路アーティファクトをダウンロードします:</p>
 <pre><code>zerc20-circuit-setup download --version 1.1.0</code></pre>
 <p>このコマンドは必要なすべてのアーティファクトをダウンロードし、マニフェストダイジェストに対して整合性を検証します。</p>
-
 <h3>テスト</h3>
 <p>ダウンロードしたアーティファクトで証明の生成/検証をテストします:</p>
 <pre><code>zerc20-circuit-setup test</code></pre>
-
 <h2>詳細情報</h2>
 <ul>
 <li><a href="architecture.html">アーキテクチャ概要</a> — システム全体の設計</li>
 <li><a href="specs.html">技術仕様</a> — 証明タイプと制約の詳細</li>
 <li><a href="../for-users/using-cli.html">CLIガイド</a> — CLIでの回路アーティファクトの使用方法</li>
 </ul>
-
 <div class="page-nav">
 <a href="integration.html" class="prev">
 <span class="nav-label">← 前へ</span>
@@ -100,10 +90,8 @@ target="_blank" rel="noopener">原文（英語）↗&nbsp;</a></div>
 </div>
 </main>
 </div>
-
 <script>
 function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('open'); }
 </script>
 </body>
-
 </html>

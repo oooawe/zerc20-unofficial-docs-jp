@@ -1,31 +1,28 @@
 <!DOCTYPE html>
-
-<!--
+<!-- *
 © 2026 zerc20.io
 Original content & materials: zerc20.io (all rights reserved by respective owner)
 This page is an unofficial Japanese translation / adaptation by oawe-lab.
 Source/Reference: https://zerc20.io
--->
-
+* -->
 <html lang="ja">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>インテグレーションガイド | zERC20 ドキュメント</title>
 <meta name="description" content="zERC20をプロジェクトに統合する方法">
 <link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
-<link rel="stylesheet" href="/styles.css">
+<script type="module" src="/pagefind/pagefind-ui.js"></script>
+  <script type="module" crossorigin src="/assets/pagefind-search-ui-1r8Wckix.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/pagefind-search-ui-x8g4lc-1.css">
 </head>
-
 <body>
 <button class="menu-toggle" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
 <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
-
 <div class="layout">
 <aside class="sidebar" id="sidebar">
 <div class="sidebar-header">
-<div class="sidebar-logo"><img src="/assets/z.svg" width="77%" height="auto" alt="zERC20"></div>
+<div class="sidebar-logo"><img src="/assets/z-DxUL8dXC.svg" width="77%" height="auto" alt="zERC20"></div>
 <div class="sidebar-top">
 <a href="/index.html">
 <div class="sidebar-title">zERC20</div>
@@ -68,23 +65,20 @@ Source/Reference: https://zerc20.io
 <a href="https://zerc20.gitbook.io/zerc20/for-developers/integration" target="_blank" rel="noopener">原文（英語）↗&nbsp;</a>
 </div>
 </aside>
-
-<main class="main">
+<main class="main" data-pagefind-body>
 <div class="content">
+<div class="pagefind-sticky-host">
+<div class="pagefind-wrap" id="search"></div>
+</div>
 <h1>インテグレーションガイド</h1>
 <p class="page-description">zERC20をプロジェクトに統合する方法を説明します。</p>
-
 <h2>概要</h2>
 <p>zERC20トークンは標準的なERC-20インターフェースを公開しているため、ERC-20トークンをサポートするあらゆるプロトコルやアプリケーションとの統合が可能です。</p>
-
 <h2>新しいzERC20トークンの作成</h2>
 <p>新しいzERC20ラッパートークンの作成はガバナンスのプロセスを経て行われます。原資産トークンのサポートを追加するには、チームにお問い合わせください。</p>
-
 <h2>トークンインテグレーション</h2>
-
 <h3>コントラクトアドレス</h3>
 <p>全てのデプロイ済みコントラクトアドレスは<a href="../reference/addresses.html">コントラクトアドレス</a>ページをご確認ください。</p>
-
 <h3>標準ERC-20インターフェース</h3>
 <p>zERC20は標準的なERC-20メソッドをすべてサポートしています:</p>
 <pre><code>// Solidityインターフェース
@@ -96,34 +90,24 @@ function allowance(address owner, address spender) external view returns (uint25
 function approve(address spender, uint256 amount) external returns (bool);
 function transferFrom(address from, address to, uint256 amount) external returns (bool);
 }</code></pre>
-
 <h3>ラッピングとアンラッピング</h3>
 <p>LiquidityManagerコントラクトを通じて原資産とzERC20トークン間の変換を行います。</p>
-
 <h2>zERC20をオラクルとして</h2>
 <p>zERC20のマークルツリーは、他のプロトコルが利用可能なオンチェーンオラクルとして使用できます。</p>
-
 <h3>リーフ構造</h3>
 <p>各マークルツリーのリーフは、転送情報（送信者、受信者、金額など）のPoseidonハッシュです。</p>
-
 <h3>ツリー構造</h3>
 <p>Poseidonハッシュベースのバイナリマークルツリーを使用しています。</p>
-
 <h3>コントラクトからマークルルートを読み取る</h3>
 <p>Verifierコントラクトからグローバルマークルルートを読み取ることができます。</p>
-
 <h3>Poseidon Hashの互換性</h3>
 <p>zERC20はBN254曲線上のPoseidon Hashを使用しています。互換性のある実装を使用してください。</p>
-
 <h3>マークル証明の取得</h3>
 <p>インデクサーAPIからマークル証明を取得できます。</p>
-
 <h2>独自のインデクサーの運用</h2>
 <p>最大限のプライバシーのために、独自のインデクサーインスタンスを運用できます。</p>
-
 <h3>Docker Compose</h3>
 <pre><code>docker-compose up -d</code></pre>
-
 <h3>設定</h3>
 <p>インデクサーの設定は環境変数を通じて行います。以下の主要な設定項目があります:</p>
 <ul>
@@ -132,7 +116,6 @@ function transferFrom(address from, address to, uint256 amount) external returns
 <li>同期するコントラクトアドレス</li>
 <li>開始ブロック番号</li>
 </ul>
-
 <div class="page-nav">
 <a href="sdk-guide.html" class="prev">
 <span class="nav-label">← 前へ</span>
@@ -146,7 +129,6 @@ function transferFrom(address from, address to, uint256 amount) external returns
 </div>
 </main>
 </div>
-
 <script>
 function toggleSidebar() {
 document.getElementById('sidebar').classList.toggle('open');
@@ -154,5 +136,4 @@ document.getElementById('overlay').classList.toggle('open');
 }
 </script>
 </body>
-
 </html>

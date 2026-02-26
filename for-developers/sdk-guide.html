@@ -1,30 +1,28 @@
 <!DOCTYPE html>
-
-<!--
+<!-- *
 © 2026 zerc20.io
 Original content & materials: zerc20.io (all rights reserved by respective owner)
 This page is an unofficial Japanese translation / adaptation by oawe-lab.
 Source/Reference: https://zerc20.io
--->
+* -->
 <html lang="ja">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SDKガイド | zERC20 ドキュメント</title>
 <meta name="description" content="zERC20 SDKのインストールと使用方法">
 <link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
-<link rel="stylesheet" href="/styles.css">
+<script type="module" src="/pagefind/pagefind-ui.js"></script>
+  <script type="module" crossorigin src="/assets/pagefind-search-ui-1r8Wckix.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/pagefind-search-ui-x8g4lc-1.css">
 </head>
-
 <body>
 <button class="menu-toggle" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
 <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
-
 <div class="layout">
 <aside class="sidebar" id="sidebar">
 <div class="sidebar-header">
-<div class="sidebar-logo"><img src="/assets/z.svg" width="77%" height="auto" alt="zERC20"></div>
+<div class="sidebar-logo"><img src="/assets/z-DxUL8dXC.svg" width="77%" height="auto" alt="zERC20"></div>
 <div class="sidebar-top">
 <a href="/index.html">
 <div class="sidebar-title">zERC20</div>
@@ -67,46 +65,37 @@ Source/Reference: https://zerc20.io
 <a href="https://zerc20.gitbook.io/zerc20/for-developers/quickstart" target="_blank" rel="noopener">原文（英語）↗&nbsp;</a>
 </div>
 </aside>
-
-<main class="main">
+<main class="main" data-pagefind-body>
 <div class="content">
+<div class="pagefind-sticky-host">
+<div class="pagefind-wrap" id="search"></div>
+</div>
 <h1>SDKガイド</h1>
 <p class="page-description">zERC20 SDKのセットアップと使い方を説明します。</p>
-
 <h2>前提条件</h2>
 <ul>
 <li>Node.js 18以上</li>
 <li>npmまたはyarn</li>
 </ul>
-
 <h2>インストール</h2>
 <pre><code>npm install @aspect-build/zerc20-sdk</code></pre>
-
 <h2>SDKの初期化</h2>
 <pre><code>import { Zerc20SDK } from '@aspect-build/zerc20-sdk';
-
 const sdk = new Zerc20SDK({
 // 設定オプション
 });</code></pre>
-
 <h2>ICPへの接続</h2>
 <p>ステルスメッセージングにはICPへの接続が必要です。SDKはICP Canisterとの通信を自動的に処理します。</p>
-
 <h2>トークンのロード</h2>
-
 <h3>オプションA: loadTokensで圧縮データからロード</h3>
 <pre><code>const tokens = await sdk.loadTokens();</code></pre>
-
 <h3>オプションB: normalizeTokensで生のJSONからロード</h3>
 <pre><code>const tokens = sdk.normalizeTokens(rawJsonData);</code></pre>
-
 <h3>トークンの検索とプロバイダーの作成</h3>
 <pre><code>// チェーンIDでトークンを検索
 const token = tokens.find(t => t.chainId === 42161);
-
 // プロバイダーを作成
 const provider = sdk.createProvider(token);</code></pre>
-
 <h2>最初のプライベート送信</h2>
 <pre><code>// プライベート送金を実行
 const result = await sdk.privateSend({
@@ -116,7 +105,6 @@ recipientAddress: '0x...',
 sourceChainId: 42161,
 destinationChainId: 8453,
 });</code></pre>
-
 <h2>次のステップ</h2>
 <div class="card-grid">
 <a href="integration.html" class="card" style="text-decoration:none;">
@@ -132,7 +120,6 @@ destinationChainId: 8453,
 <div class="card-text">詳細なプロトコル仕様</div>
 </a>
 </div>
-
 <div class="page-nav">
 <a href="architecture.html" class="prev">
 <span class="nav-label">← 前へ</span>
@@ -146,7 +133,6 @@ destinationChainId: 8453,
 </div>
 </main>
 </div>
-
 <script>
 function toggleSidebar() {
 document.getElementById('sidebar').classList.toggle('open');
@@ -154,5 +140,4 @@ document.getElementById('overlay').classList.toggle('open');
 }
 </script>
 </body>
-
 </html>

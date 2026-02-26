@@ -1,31 +1,28 @@
 <!DOCTYPE html>
-
-<!--
+<!-- *
 © 2026 zerc20.io
 Original content & materials: zerc20.io (all rights reserved by respective owner)
 This page is an unofficial Japanese translation / adaptation by oawe-lab.
 Source/Reference: https://zerc20.io
--->
-
+* -->
 <html lang="ja">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>アーキテクチャ概要 | zERC20 ドキュメント</title>
 <meta name="description" content="zERC20のオンチェーンコントラクト、オフチェーンサービス、ICPステルスメッセージングレイヤーのアーキテクチャ">
 <link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
-<link rel="stylesheet" href="/styles.css">
+<script type="module" src="/pagefind/pagefind-ui.js"></script>
+  <script type="module" crossorigin src="/assets/pagefind-search-ui-1r8Wckix.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/pagefind-search-ui-x8g4lc-1.css">
 </head>
-
 <body>
 <button class="menu-toggle" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
 <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
-
 <div class="layout">
 <aside class="sidebar" id="sidebar">
 <div class="sidebar-header">
-<div class="sidebar-logo"><img src="/assets/z.svg" width="77%" height="auto" alt="zERC20"></div>
+<div class="sidebar-logo"><img src="/assets/z-DxUL8dXC.svg" width="77%" height="auto" alt="zERC20"></div>
 <div class="sidebar-top">
 <a href="/index.html">
 <div class="sidebar-title">zERC20</div>
@@ -68,13 +65,14 @@ Source/Reference: https://zerc20.io
 <a href="https://zerc20.gitbook.io/zerc20/for-developers/architecture" target="_blank" rel="noopener">原文（英語）↗&nbsp;</a>
 </div>
 </aside>
-
-<main class="main">
+<main class="main" data-pagefind-body>
 <div class="content">
+<div class="pagefind-sticky-host">
+<div class="pagefind-wrap" id="search"></div>
+</div>
 <h1>アーキテクチャ概要</h1>
 <p class="page-description">このドキュメントでは、zERC20がオンチェーンコントラクト、オフチェーンサービス、Internet Computer (ICP)
 ステルスメッセージングレイヤーにわたってどのように構築されているかを説明します。</p>
-
 <ul class="feature-list">
 <li><strong>プライバシー保護送金:</strong> 送信者はステルスアドレスにzERC20をバーン。受信者は同じまたは別のチェーンで、紐付け可能なオンチェーンメタデータなしにミント
 </li>
@@ -83,7 +81,6 @@ Source/Reference: https://zerc20.io
 <li><strong>スケーラビリティ:</strong> PoseidonマークルツリーとIVCで数千の送金を1つの証明にバッチ化</li>
 <li><strong>クロスチェーン:</strong> LayerZeroベースのHubが全チェーンのルートを集約</li>
 </ul>
-
 <h2>オンチェーンコントラクト</h2>
 <div class="table-wrapper">
 <table>
@@ -118,7 +115,6 @@ Source/Reference: https://zerc20.io
 </tbody>
 </table>
 </div>
-
 <h2>オフチェーンサービス</h2>
 <div class="table-wrapper">
 <table>
@@ -144,7 +140,6 @@ Source/Reference: https://zerc20.io
 </tbody>
 </table>
 </div>
-
 <h2>ICPステルスストレージ</h2>
 <div class="table-wrapper">
 <table>
@@ -166,22 +161,16 @@ Source/Reference: https://zerc20.io
 </tbody>
 </table>
 </div>
-
 <h2>データフロー</h2>
-
 <h3>1. 転送の発行</h3>
 <p>すべての転送（ミント/送金/バーン）はSHA-256ハッシュチェーンに追加され、インデックス付きイベントを発行します。</p>
 <pre><code>zERC20._update() → IndexedTransferを発行 → hashChainを更新</code></pre>
-
 <h3>2. ルート証明</h3>
 <p>インデクサーがPoseidonマークルツリーを維持し、定期的にIVC証明を使用してオンチェーンで新しい転送ルートを証明します。</p>
-
 <h3>3. クロスチェーン集約</h3>
 <p>各チェーンのVerifierはその転送ルートをHubにリレーし、Hubはそれらを集約してグローバルルートを全Verifierにブロードキャストします。</p>
-
 <h3>4. プライベート送金</h3>
 <pre><code>送信者 → バーンアドレスへのzERC20送金 → 受信者がICPストレージをスキャン → ZKP生成 → Verifier.teleport() → zERC20が受信者にミント</code></pre>
-
 <h2>暗号プリミティブ</h2>
 <div class="table-wrapper">
 <table>
@@ -215,7 +204,6 @@ Source/Reference: https://zerc20.io
 </tbody>
 </table>
 </div>
-
 <h2>信頼モデル</h2>
 <div class="table-wrapper">
 <table>
@@ -245,7 +233,6 @@ Source/Reference: https://zerc20.io
 <div class="callout-title">⚠️ 最大限のプライバシーのために</div>
 <p>送信者-受信者の紐付け漏洩を避けるために、独自のインデクサーインスタンスを運用してください。</p>
 </div>
-
 <div class="page-nav">
 <a href="../for-users/faq.html" class="prev">
 <span class="nav-label">← 前へ</span>
@@ -259,7 +246,6 @@ Source/Reference: https://zerc20.io
 </div>
 </main>
 </div>
-
 <script>
 function toggleSidebar() {
 document.getElementById('sidebar').classList.toggle('open');
@@ -267,5 +253,4 @@ document.getElementById('overlay').classList.toggle('open');
 }
 </script>
 </body>
-
 </html>
